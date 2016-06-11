@@ -20339,7 +20339,7 @@
 /* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -20364,39 +20364,69 @@
 	var LoginForm = function (_Component) {
 	    _inherits(LoginForm, _Component);
 	
-	    function LoginForm() {
+	    function LoginForm(props) {
 	        _classCallCheck(this, LoginForm);
 	
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(LoginForm).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LoginForm).call(this, props));
+	
+	        _this.handleUsername = _this.handleUsername.bind(_this);
+	        _this.handlePassword = _this.handlePassword.bind(_this);
+	        _this.state = {
+	            username: '',
+	            password: ''
+	        };
+	        return _this;
 	    }
 	
 	    _createClass(LoginForm, [{
-	        key: "render",
+	        key: 'handleUsername',
+	        value: function handleUsername(e) {
+	            this.setState({
+	                username: e.target.value
+	            });
+	        }
+	    }, {
+	        key: 'handlePassword',
+	        value: function handlePassword(e) {
+	            this.setState({
+	                password: e.target.value
+	            });
+	        }
+	    }, {
+	        key: 'handleLogin',
+	        value: function handleLogin() {
+	            var username = this.refs.username.value;
+	            var password = this.refs.password.value;
+	            console.log(username);
+	            console.log(password);
+	        }
+	    }, {
+	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
-	                "div",
+	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    "form",
-	                    { method: "post", className: "am-form" },
+	                    'form',
+	                    { method: 'post', className: 'am-form' },
 	                    _react2.default.createElement(
-	                        "label",
-	                        { "for": "email" },
-	                        "Username"
+	                        'label',
+	                        { 'for': 'username' },
+	                        'Username'
 	                    ),
-	                    _react2.default.createElement("input", { type: "email", name: "", id: "email", value: "" }),
-	                    _react2.default.createElement("br", null),
+	                    _react2.default.createElement('input', { type: 'text', name: '', id: 'username', ref: 'username', onChange: this.handleUsername }),
+	                    _react2.default.createElement('br', null),
 	                    _react2.default.createElement(
-	                        "label",
-	                        { "for": "password" },
-	                        "Password"
+	                        'label',
+	                        { 'for': 'password' },
+	                        'Password'
 	                    ),
-	                    _react2.default.createElement("input", { type: "password", name: "", id: "password", refs: "password", value: "" }),
-	                    _react2.default.createElement("br", null),
+	                    _react2.default.createElement('input', { type: 'password', name: '', id: 'password', ref: 'password', onChange: this.handlePassword }),
+	                    _react2.default.createElement('br', null),
 	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "am-cf" },
-	                        _react2.default.createElement("input", { type: "submit", name: "", value: "Login", className: "am-btn am-btn-primary am-btn-sm am-fl" })
+	                        'div',
+	                        { className: 'am-cf' },
+	                        _react2.default.createElement('input', { type: 'button', onClick: this.handleLogin, name: '', value: 'Login', className: 'am-btn am-btn-primary am-btn-sm am-fl' })
 	                    )
 	                )
 	            );
