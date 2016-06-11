@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+    <meta charset="UTF-8">
+    <title>Login Page | Quiz Engine</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="alternate icon" type="image/png" href="/assets/i/favicon.png">
+    <link rel="stylesheet" href="/assets/css/amazeui.min.css"/>
+
+    <script   src="https://code.jquery.com/jquery-3.0.0.js"   integrity="sha256-jrPLZ+8vDxt2FnE1zvZXCkCcebI/C8Dt5xyaQBjxQIo="   crossorigin="anonymous"></script>
+
+    <style>
+        .header {
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 200%;
+            color: #333;
+            margin-top: 30px;
+        }
+        .header p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="am-g">
+        <h1>Quiz Engine</h1>
+
+        <p>Designed for improving your skills</p>
+    </div>
+    <hr/>
+</div>
+<div class="am-g">
+    <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+        <h3><a href="/login"> Login</a></h3>
+        <hr>
+
+        <br>
+        <br>
+
+        <div id="root">
+aaaaa
+        </div>
+        <hr>
+    </div>
+</div>
+
+<!--<script type="text/babel" src="/static/components/Login.jsx"></script>-->
+
+<!--<script>-->
+<!--require.config({-->
+<!--'baseUrl' : '/static/'-->
+<!--});-->
+<!--require(["Test"]);-->
+<!--</script>-->
+
+<script>
+    $(document).ready(function () {
+//        login();
+    })
+
+    function login() {
+        var flag = true;
+        var username = $.trim($("#username").val());
+        if (username == "") {
+            flag = false;
+            alert("Username can not be blank!");
+            $("#username").focus();
+        }
+        if (flag) {
+            var password = $.trim($("#password").val());
+            if (password == "") {
+                flag = false;
+                alert("Password can not be blank!");
+                $("#password").focus();
+            }
+            if (flag) {
+                $.ajax({
+                    url: 'session/login',
+                    type: 'POST',
+                    data: {'username': username, 'password': password},
+                    success: function (data) {
+                        alert(data.data.errormsg);
+                        if (data.status == 200) {
+                            var pre_url = getCookie("pre_url");
+                            var current_url = window.location.href;
+//                                alert(pre_url+"  \n "+current_url);
+                            var url="";
+                            if(pre_url!=current_url && pre_url!=""){
+                                url = pre_url;
+                            }else{
+                                var user_type = data.data.user.type;
+                                var type = "";
+                                if(user_type==1){
+                                    type = "admin";
+                                }else if(user_type==2){
+                                    type = "teacher";
+                                }else if(user_type==3){
+                                    type = "student";
+                                }
+                                url = type+"/route";
+                            }
+                            location.href=url;
+                        }
+                    },
+                    error: function () {
+                        cb(false);
+                    }
+                });
+            }
+        }
+    }
+</script>
+
+<script src="bundle.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "name": "quiz_engine_front_end",
+  "version": "1.0.0",
+  "description": "this is the front end of the quiz engine system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node bin/www",
+    "start": "webpack-dev-server --progress --colors --watch",
+    "webpack": "webpack --progress --colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tommyJin/quizEngine_FrontEnd.git"
+  },
+  "keywords": [
+    "quiz",
+    "engine"
+  ],
+  "author": "tommy Jing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tommyJin/quizEngine_FrontEnd/issues"
+  },
+  "homepage": "https://github.com/tommyJin/quizEngine_FrontEnd#readme",
+  "dependencies": {
+    "mysql": "^2.10.2",
+    "jquery": "^3.0.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "request": "^2.72.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "ejs": "^2.4.2",
+    "morgan": "~1.6.1",
+    "statics": "~0.1.0",
+    "serve-favicon": "~2.3.0",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
