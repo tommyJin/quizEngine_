@@ -9,43 +9,40 @@ class LoginForm extends Component {
         super(props);
         this.handleUsername = this.handleUsername.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
-        this.state = {
-            username: '',
-            password:''
-        };
+        this.handleLogin = this.handleLogin.bind(this);
     }
 
+
+
     handleUsername(e) {
-        this.setState({
-            username: e.target.value
-        });
+        this.setState({username: e.target.value});
+        console.log("username="+this.state.username);
     }
 
     handlePassword(e) {
-        this.setState({
-            password: e.target.value
-        });
+        this.setState({password: e.target.value});
+        console.log("password="+this.state.password);
     }
 
-    handleLogin(){
-        const username = this.refs.username.value;
-        const password = this.refs.password.value;
-        console.log(username);
-        console.log(password);
+    handleLogin(e){
+        var username = this.state.username;
+        var password = this.state.password;
+        console.log("username="+this.state.username);
+        console.log("password="+this.state.password);
     }
 
     render() {
         return (
             <div>
-                <form method="post" className="am-form">
+                <form className="am-form" >
                     <label for="username">Username</label>
-                    <input type="text" name="" id="username" ref="username"  onChange={this.handleUsername}/>
+                    <input type="text" name="" id="username" ref="username" onBlur={this.handleUsername}/>
                     <br/>
                     <label for="password">Password</label>
-                    <input type="password" name="" id="password" ref="password" onChange={this.handlePassword}/>
+                    <input type="password" name="" id="password" ref="password" onBlur={this.handlePassword}/>
                     <br/>
                     <div className="am-cf">
-                        <input type="button" onClick={this.handleLogin} name="" value="Login" className="am-btn am-btn-primary am-btn-sm am-fl" />
+                        <button type="button" onClick={this.handleLogin} className="am-btn am-btn-primary am-btn-sm am-fl" >Login</button>
                     </div>
                 </form>
             </div>
