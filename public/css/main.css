@@ -1,0 +1,93 @@
+/***** 全局设置 *****/
+
+body,h1,h2,h3,h4,h5,h6,p,form,ul,ol,li,dt,dl,dd,th,td,label,button,input,textarea{ margin:0;padding:0;}
+body{font-family:"宋体", arial;line-height:2;text-align:left;background:#FFF;color:#000;}
+/*h1,h2,h3,h4,h5,h6,button,input,select,textarea{ font-size:100%;}*/
+fieldset,img{border:0;}
+ul{margin:0;padding:0;list-style:none;}
+/*div,th,td{font-size:14px;}*/
+table{ border-collapse:collapse; border-spacing:0;}
+em,i{ font-style:normal;}
+sup{ vertical-align:text-top;}
+sub{ vertical-align:text-bottom;}
+
+#body {
+    width: 800px;
+    margin: 0 auto 0 auto;
+    padding: 0 0 0 0;
+}
+
+#nav {
+    width: 100%;
+    float: left;
+}
+
+#content {
+    width: 100%;
+    float: left;
+    background-color: #F1F1F1;
+    margin:0 auto;
+}
+
+.form_login{
+    margin: 100px auto 0 auto;
+    text-align: center;
+    max-width: 330px;
+    height: 330px;
+}
+
+.input_div {
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.input_left {
+    float: left;
+    width: 20%;
+}
+
+.input_right {
+    float: left;
+    width: 80%;
+}
+
+
+
+
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
