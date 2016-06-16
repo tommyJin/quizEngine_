@@ -5,10 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// const session = require('express-session');
+// const MongoStore = require('connect-mongo')(session);
+
 var routes = require('./routes/index');
 var login = require('./routes/login');
-var users = require('./routes/users');
+var user = require('./routes/user');
 var api = require('./routes/api');
+var token = require('./routes/token');
 
 var app = express();
 
@@ -24,6 +28,7 @@ app.set('view engine', 'ejs');
 //   store: new RedisStore()
 // }));
 
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -34,9 +39,10 @@ app.use(cookieParser());
 app.use('/static', express.static(__dirname + '/public'));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/user', user);
 app.use('/login', login);
 app.use('/api',api);
+app.use('/token',token);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

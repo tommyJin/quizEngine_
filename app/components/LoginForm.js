@@ -3,6 +3,7 @@
  */
 
 import React, {Component} from 'react';
+import user from '../api/user';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -29,6 +30,23 @@ class LoginForm extends Component {
         var password = this.state.password;
         console.log("username="+this.state.username);
         console.log("password="+this.state.password);
+        var q = {};
+        q.username = username;
+        q.password = password;
+        user.login(q,function (rs) {
+            if (rs.status==200){
+                localStorage.setItem("user", JSON.stringify(rs.data.user));
+                localStorage.setItem("last_login", new Date().getTime());
+                alert(rs.data.errormsg);    
+                if (params['from']) {
+                    window.location.href = params['from'];
+                }else {
+                    alert("no where to go");    
+                }
+            }else {
+                alert(rs.data);
+            }
+        })
     }
 
     render() {
