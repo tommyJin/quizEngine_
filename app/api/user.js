@@ -24,7 +24,22 @@ module.exports = {
     },
 
     getOne(q,cb){
-        var url = base.base_url+"admin/user/get";
+        var url = base.local_url+"user/get";
+        $.ajax({
+            url:url,
+            type:'GET',
+            dataType:'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert('ajax error');
+            }
+        })
+    },
+
+    update(q,cb){
+        var url = base.base_url+"admin/user/update";
         $.ajax({
             url:url,
             data:q,
@@ -38,4 +53,5 @@ module.exports = {
             }
         })
     }
+
 };

@@ -1,3 +1,32 @@
+</div>
+
+
+
+<script>
+    function logout() {
+        $.ajax({
+            url: '/session/logout',
+            type: 'GET',
+            dataType: 'JSON',
+            data: {},
+            success: function (rs) {
+                if(rs.status==200){
+                    alert(rs.data);
+                    location.href="/route/login";
+                }else{
+                    alert(rs.data);
+                }
+            },
+            error: function () {
+                alert("Ajax error!");
+            }
+        });
+    }
+</script>
+
+
+
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/static/js/dist/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->

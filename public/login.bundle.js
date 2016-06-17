@@ -20498,7 +20498,21 @@
 	        });
 	    },
 	    getOne: function getOne(q, cb) {
-	        var url = _base2.default.base_url + "admin/user/get";
+	        var url = _base2.default.local_url + "user/get";
+	        $.ajax({
+	            url: url,
+	            type: 'GET',
+	            dataType: 'JSON',
+	            success: function success(rs) {
+	                cb(rs);
+	            },
+	            error: function error() {
+	                alert('ajax error');
+	            }
+	        });
+	    },
+	    update: function update(q, cb) {
+	        var url = _base2.default.base_url + "admin/user/update";
 	        $.ajax({
 	            url: url,
 	            data: q,

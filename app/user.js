@@ -5,4 +5,4 @@ import React from 'react';
 import {render} from 'react-dom';
 import UserProfile from './components/UserProfile';
 
-render(<UserProfile/>,document.getElementById('root'));
+render(<UserProfile/>,document.getElementById('form'));

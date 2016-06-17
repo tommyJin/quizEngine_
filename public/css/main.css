@@ -22,11 +22,11 @@ sub{ vertical-align:text-bottom;}
     float: left;
 }
 
-#content {
+#main_content {
     width: 100%;
     float: left;
     background-color: #F1F1F1;
-    margin:0 auto;
+    margin:0 auto 0 auto;
 }
 
 .form_login{
@@ -36,11 +36,24 @@ sub{ vertical-align:text-bottom;}
     height: 330px;
 }
 
+/* input start */
+
 .input_div {
+    float: left;
     width: 100%;
-    height: 40px;
     margin-top: 10px;
     margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.input_div textarea {
+    min-height: 300px;
+    width: 80%;
+}
+
+.input_div p{
+    margin-left: 20%;
+    color: red;
 }
 
 .input_left {
@@ -53,41 +66,33 @@ sub{ vertical-align:text-bottom;}
     width: 80%;
 }
 
+/* input end */
+
+.button_group {
+    width: 40%;
+    float: left;
+}
 
 
+/* tutorial start */
 
+.tutorial_entry{
+    float: left;
+    width: 100%;
+    margin: 30px auto 0 auto;
+}
 
-.form-signin {
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
+.tutorial_button_group{
+    width: 60%;
+    float: right;
 }
-.form-signin .form-signin-heading,
-.form-signin .checkbox {
-    margin-bottom: 10px;
+
+.tutorial_button_group button{
+    float: left;
 }
-.form-signin .checkbox {
-    font-weight: normal;
+
+.panel-footer a{
+    color: black;
 }
-.form-signin .form-control {
-    position: relative;
-    height: auto;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 10px;
-    font-size: 16px;
-}
-.form-signin .form-control:focus {
-    z-index: 2;
-}
-.form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
+
+/* tutorial end */
