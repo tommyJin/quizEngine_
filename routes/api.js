@@ -10,7 +10,15 @@ var session = require('express-session')
 
 var base = "http://localhost:8080/";
 
+var app = express();
 var router = express.Router();
+
+app.use(session({
+    secret : 'user',
+    cookie : {maxAge : 60000}
+}));
+
+
 
 /* GET home page. */
 router.get('/login', function(req, res, next) {
@@ -31,7 +39,16 @@ router.get('/login', function(req, res, next) {
     res.send('respond with a url:'+url_login);
 });
 
-
+router.get('/test', function (req,res,next) {
+    var sess = req.session;
+    if (sess.user){
+        console.log("user="+sess.user);
+        res.json(sess.user);
+    }else {
+        sess.user = {'username':'admin','name':'zs','token':'token123'};
+        res.json("not login");
+    }
+});
 
 
 module.exports = router;

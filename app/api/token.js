@@ -21,12 +21,14 @@ module.exports = {
     },
     
     getToken(cb){
-        var url = base.local_url+"token/get";
+        var url = base.local_url+"api/test";
+        console.log("get token");
         $.ajax({
             url : url,
             type:'GET',
             dataType:'JSON',
             success(rs){
+                alert(rs);
                 cb(rs);
             },
             error(){

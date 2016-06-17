@@ -172,10 +172,30 @@
 	
 	var process = module.exports = {};
 	
-	// cached from whatever global is present so that test runners that stub it don't break things.
-	var cachedSetTimeout = setTimeout;
-	var cachedClearTimeout = clearTimeout;
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
 	
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+	
+	(function () {
+	  try {
+	    cachedSetTimeout = setTimeout;
+	  } catch (e) {
+	    cachedSetTimeout = function () {
+	      throw new Error('setTimeout is not defined');
+	    }
+	  }
+	  try {
+	    cachedClearTimeout = clearTimeout;
+	  } catch (e) {
+	    cachedClearTimeout = function () {
+	      throw new Error('clearTimeout is not defined');
+	    }
+	  }
+	} ())
 	var queue = [];
 	var draining = false;
 	var currentQueue;
@@ -30617,12 +30637,14 @@
 	        });
 	    },
 	    getToken: function getToken(cb) {
-	        var url = _base2.default.local_url + "token/get";
+	        var url = _base2.default.local_url + "api/test";
+	        console.log("get token");
 	        $.ajax({
 	            url: url,
 	            type: 'GET',
 	            dataType: 'JSON',
 	            success: function success(rs) {
+	                alert(rs);
 	                cb(rs);
 	            },
 	            error: function error() {

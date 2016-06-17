@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import user from '../api/user';
+import token from '../api/token'
 
 class UserProfile extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class UserProfile extends Component {
         this.handleName = this.handleName.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         // this.handleLogin = this.handleLogin.bind(this);
+        this.handleTest = this.handleTest.bind(this);
     }
 
     
@@ -49,6 +51,9 @@ class UserProfile extends Component {
         })
     }
 
+    handleTest(e){
+        token.getToken('',function (){});
+    }
 
     render() {
         return (
@@ -67,6 +72,8 @@ class UserProfile extends Component {
                 </div>
                 <button type="button" onClick={this.handleSubmit} className="btn btn-default">Submit</button>
                 <button type="reset" className="btn btn-default">Reset</button>
+                
+                <button type="button" onClick={this.handleTest} className="btn btn-info">Get user</button>
 
                 <input type="hidden" id="id" name="id" />
             </form>
