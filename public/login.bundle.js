@@ -172,30 +172,10 @@
 	
 	var process = module.exports = {};
 	
-	// cached from whatever global is present so that test runners that stub it
-	// don't break things.  But we need to wrap it in a try catch in case it is
-	// wrapped in strict mode code which doesn't define any globals.  It's inside a
-	// function because try/catches deoptimize in certain engines.
+	// cached from whatever global is present so that test runners that stub it don't break things.
+	var cachedSetTimeout = setTimeout;
+	var cachedClearTimeout = clearTimeout;
 	
-	var cachedSetTimeout;
-	var cachedClearTimeout;
-	
-	(function () {
-	  try {
-	    cachedSetTimeout = setTimeout;
-	  } catch (e) {
-	    cachedSetTimeout = function () {
-	      throw new Error('setTimeout is not defined');
-	    }
-	  }
-	  try {
-	    cachedClearTimeout = clearTimeout;
-	  } catch (e) {
-	    cachedClearTimeout = function () {
-	      throw new Error('clearTimeout is not defined');
-	    }
-	  }
-	} ())
 	var queue = [];
 	var draining = false;
 	var currentQueue;
@@ -20403,36 +20383,36 @@
 	        key: 'handleUsername',
 	        value: function handleUsername(e) {
 	            this.setState({ username: e.target.value });
-	            console.log("username=" + this.state.username);
+	            // console.log("username="+this.state.username);
 	        }
 	    }, {
 	        key: 'handlePassword',
 	        value: function handlePassword(e) {
 	            this.setState({ password: e.target.value });
-	            console.log("password=" + this.state.password);
+	            // console.log("password="+this.state.password);
 	        }
 	    }, {
 	        key: 'handleLogin',
 	        value: function handleLogin(e) {
 	            var username = this.state.username;
 	            var password = this.state.password;
-	            console.log("username=" + this.state.username);
-	            console.log("password=" + this.state.password);
+	            // console.log("username="+this.state.username);
+	            // console.log("password="+this.state.password);
 	            var q = {};
 	            q.username = username;
 	            q.password = password;
 	            _user2.default.login(q, function (rs) {
 	                if (rs.status == 200) {
-	                    localStorage.setItem("user", JSON.stringify(rs.data.user));
-	                    localStorage.setItem("last_login", new Date().getTime());
-	                    alert(rs.data.errormsg);
+	                    // localStorage.setItem("user", JSON.stringify(rs.data.user));
+	                    // localStorage.setItem("last_login", new Date().getTime());
+	                    alert("Welcome:" + rs.data.name);
 	                    if (params['from']) {
 	                        window.location.href = params['from'];
 	                    } else {
-	                        alert("no where to go");
+	                        alert("do nothing");
 	                    }
 	                } else {
-	                    alert(rs.data);
+	                    alert(rs.data.errormsg);
 	                }
 	            });
 	        }
@@ -20502,14 +20482,28 @@
 	module.exports = {
 	    login: function login(q, cb) {
 	        var url = _base2.default.base_url + "session/login";
-	        console.log("base_url=" + url);
+	        // console.log("url="+url);
 	        $.ajax({
 	            url: url,
 	            data: q,
 	            type: 'POST',
 	            dataType: 'JSON',
 	            success: function success(rs) {
-	                _token2.default.setToken(rs.data, function () {});
+	                cb(rs);
+	            },
+	            error: function error() {
+	                alert('ajax error');
+	            }
+	        });
+	    },
+	    logout: function logout(q, cb) {
+	        var url = _base2.default.base_url + "session/logout";
+	        $.ajax({
+	            url: url,
+	            data: q,
+	            type: 'GET',
+	            dataType: 'JSON',
+	            success: function success(rs) {
 	                cb(rs);
 	            },
 	            error: function error() {
@@ -20518,7 +20512,7 @@
 	        });
 	    },
 	    getOne: function getOne(q, cb) {
-	        var url = _base2.default.local_url + "user/get";
+	        var url = _base2.default.local_url + "api/user/get";
 	        $.ajax({
 	            url: url,
 	            type: 'GET',
@@ -20532,7 +20526,7 @@
 	        });
 	    },
 	    update: function update(q, cb) {
-	        var url = _base2.default.base_url + "admin/user/update";
+	        var url = _base2.default.base_url + "api/user/update";
 	        $.ajax({
 	            url: url,
 	            data: q,
@@ -30604,14 +30598,14 @@
 	var test_url = "http://localhost:8080/";
 	var remote_url = "http://localhost:8080/";
 	var local_url = "http://localhost:3000/";
-	exports.base_url = test_url;
+	exports.base_url = local_url;
 	exports.local_url = local_url;
 
 /***/ },
 /* 172 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {"use strict";
 	
 	var _base = __webpack_require__(171);
 	
@@ -30620,31 +30614,15 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	module.exports = {
-	    setToken: function setToken(q, cb) {
-	        var url = _base2.default.local_url + "token/set";
-	        $.ajax({
-	            url: url,
-	            data: q,
-	            type: 'GET',
-	            dataType: 'JSON',
-	            success: function success(rs) {
-	                alert("");
-	                // cb(rs);
-	            },
-	            error: function error() {
-	                alert("ajax error");
-	            }
-	        });
-	    },
 	    getToken: function getToken(cb) {
-	        var url = _base2.default.local_url + "api/test";
+	        var url = _base2.default.local_url + "api/token/get";
 	        console.log("get token");
 	        $.ajax({
 	            url: url,
 	            type: 'GET',
 	            dataType: 'JSON',
 	            success: function success(rs) {
-	                alert(rs);
+	                console.log("token=" + rs);
 	                cb(rs);
 	            },
 	            error: function error() {

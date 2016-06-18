@@ -7,14 +7,29 @@ import token from './token';
 module.exports = {
     login(q,cb){
         var url = base.base_url+"session/login";
-        console.log("base_url="+url);
+        // console.log("url="+url);
         $.ajax({
             url:url,
             data:q,
             type:'POST',
             dataType:'JSON',
             success(rs){
-                token.setToken(rs.data,function () {});
+                cb(rs);
+            },
+            error(){
+                alert('ajax error');
+            }
+        })
+    },
+    
+    logout(q,cb){
+        var url = base.base_url+"session/logout";
+        $.ajax({
+            url:url,
+            data:q,
+            type:'GET',
+            dataType:'JSON',
+            success(rs){
                 cb(rs);
             },
             error(){
@@ -24,7 +39,7 @@ module.exports = {
     },
 
     getOne(q,cb){
-        var url = base.local_url+"user/get";
+        var url = base.local_url+"api/user/get";
         $.ajax({
             url:url,
             type:'GET',
@@ -39,7 +54,7 @@ module.exports = {
     },
 
     update(q,cb){
-        var url = base.base_url+"admin/user/update";
+        var url = base.base_url+"api/user/update";
         $.ajax({
             url:url,
             data:q,

@@ -17,34 +17,34 @@ class LoginForm extends Component {
 
     handleUsername(e) {
         this.setState({username: e.target.value});
-        console.log("username="+this.state.username);
+        // console.log("username="+this.state.username);
     }
 
     handlePassword(e) {
         this.setState({password: e.target.value});
-        console.log("password="+this.state.password);
+        // console.log("password="+this.state.password);
     }
 
     handleLogin(e){
         var username = this.state.username;
         var password = this.state.password;
-        console.log("username="+this.state.username);
-        console.log("password="+this.state.password);
+        // console.log("username="+this.state.username);
+        // console.log("password="+this.state.password);
         var q = {};
         q.username = username;
         q.password = password;
         user.login(q,function (rs) {
             if (rs.status==200){
-                localStorage.setItem("user", JSON.stringify(rs.data.user));
-                localStorage.setItem("last_login", new Date().getTime());
-                alert(rs.data.errormsg);    
+                // localStorage.setItem("user", JSON.stringify(rs.data.user));
+                // localStorage.setItem("last_login", new Date().getTime());
+                alert("Welcome:"+rs.data.name);
                 if (params['from']) {
                     window.location.href = params['from'];
                 }else {
-                    alert("no where to go");    
+                    alert("do nothing");    
                 }
             }else {
-                alert(rs.data);
+                alert(rs.data.errormsg);
             }
         })
     }

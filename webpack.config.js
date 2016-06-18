@@ -8,7 +8,8 @@ module.exports = {
     devtool: 'source-map',
     entry: {
         login:path.resolve(__dirname,"app/login.js"),
-        user:path.resolve(__dirname,"app/user.js")
+        user:path.resolve(__dirname,"app/user.js"),
+        nav:path.resolve(__dirname,"app/nav.js")
     },
     output: {
         path: path.resolve(__dirname, "public"),

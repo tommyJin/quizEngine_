@@ -3,32 +3,15 @@
  */
 import base from '../base';
 module.exports = {
-    setToken(q,cb){
-        var url = base.local_url+"token/set";
-        $.ajax({
-           url : url,
-            data:q,
-            type:'GET',
-            dataType:'JSON',
-            success(rs){
-                alert("");
-                // cb(rs);
-            },
-            error(){
-                alert("ajax error");
-            }
-        });
-    },
-    
     getToken(cb){
-        var url = base.local_url+"api/test";
+        var url = base.local_url+"api/token/get";
         console.log("get token");
         $.ajax({
             url : url,
             type:'GET',
             dataType:'JSON',
             success(rs){
-                alert(rs);
+                console.log("token="+rs);
                 cb(rs);
             },
             error(){
