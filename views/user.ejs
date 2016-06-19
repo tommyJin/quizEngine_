@@ -40,44 +40,6 @@
 
         <!-- content end -->
 
-        <script>
-            var id = $("#id").val();
-            $(document).ready(function(){
-                if(id != null && id.length!=0){
-                    getUser(id);
-                }
-            });
-
-            $.validator.setDefaults({
-//        debug:true
-            });
-
-            $().ready(function() {
-                $("#form").validate({
-                    rules: {
-                        name: "required",
-                        username: {
-                            required: true,
-                            minlength: 4
-                        },
-                        password: {
-                            required: true,
-                            minlength: 4
-                        }
-                    },
-                    submitHandler: function() {
-                        id = $("#id").val();
-                        if (id != null && id.length!=0) {
-                            updateUser();
-                        }else {
-                            addUser();
-                        }
-                    }
-                });
-            });
-
-
-        </script>
 <script src="/static/nav.bundle.js"></script>
 <script src="/static/user.bundle.js"></script>
 

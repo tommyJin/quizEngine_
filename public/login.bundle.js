@@ -20355,6 +20355,10 @@
 	
 	var _user2 = _interopRequireDefault(_user);
 	
+	var _base = __webpack_require__(171);
+	
+	var _base2 = _interopRequireDefault(_base);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20403,17 +20407,17 @@
 	            q.password = password;
 	            _user2.default.login(q, function (rs) {
 	                if (rs.status == 200) {
-	                    // localStorage.setItem("user", JSON.stringify(rs.data.user));
-	                    // localStorage.setItem("last_login", new Date().getTime());
 	                    alert("Welcome:" + rs.data.name);
-	                    if (params['from']) {
-	                        window.location.href = params['from'];
-	                    } else {
-	                        alert("do nothing");
-	                    }
+	
+	                    window.location.href = _base2.default.local_url + "view/index";
+	                    // if (params['from']) {
+	                    //     window.location.href = params['from'];
+	                    // }else {
+	                    //     alert("do nothing");   
+	                    // }
 	                } else {
-	                    alert(rs.data.errormsg);
-	                }
+	                        alert(rs.data.errormsg);
+	                    }
 	            });
 	        }
 	    }, {
@@ -20468,16 +20472,7 @@
 	
 	var _base2 = _interopRequireDefault(_base);
 	
-	var _token = __webpack_require__(172);
-	
-	var _token2 = _interopRequireDefault(_token);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	/**
-	 * Created by tommy on 2016/6/11.
-	 */
-	
 	
 	module.exports = {
 	    login: function login(q, cb) {
@@ -20530,7 +20525,7 @@
 	        $.ajax({
 	            url: url,
 	            data: q,
-	            type: 'GET',
+	            type: 'POST',
 	            dataType: 'JSON',
 	            success: function success(rs) {
 	                cb(rs);
@@ -20540,7 +20535,9 @@
 	            }
 	        });
 	    }
-	};
+	}; /**
+	    * Created by tommy on 2016/6/11.
+	    */
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(170)))
 
 /***/ },
@@ -30600,40 +30597,6 @@
 	var local_url = "http://localhost:3000/";
 	exports.base_url = local_url;
 	exports.local_url = local_url;
-
-/***/ },
-/* 172 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {"use strict";
-	
-	var _base = __webpack_require__(171);
-	
-	var _base2 = _interopRequireDefault(_base);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	module.exports = {
-	    getToken: function getToken(cb) {
-	        var url = _base2.default.local_url + "api/token/get";
-	        console.log("get token");
-	        $.ajax({
-	            url: url,
-	            type: 'GET',
-	            dataType: 'JSON',
-	            success: function success(rs) {
-	                console.log("token=" + rs);
-	                cb(rs);
-	            },
-	            error: function error() {
-	                alert("ajax error");
-	            }
-	        });
-	    }
-	}; /**
-	    * Created by tommy on 2016/6/16.
-	    */
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(170)))
 
 /***/ }
 /******/ ]);

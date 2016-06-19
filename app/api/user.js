@@ -2,7 +2,6 @@
  * Created by tommy on 2016/6/11.
  */
 import base from '../base';
-import token from './token';
 
 module.exports = {
     login(q,cb){
@@ -58,7 +57,7 @@ module.exports = {
         $.ajax({
             url:url,
             data:q,
-            type:'GET',
+            type:'POST',
             dataType:'JSON',
             success(rs){
                 cb(rs);

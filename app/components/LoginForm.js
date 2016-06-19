@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import user from '../api/user';
+import base from '../base';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -35,14 +36,14 @@ class LoginForm extends Component {
         q.password = password;
         user.login(q,function (rs) {
             if (rs.status==200){
-                // localStorage.setItem("user", JSON.stringify(rs.data.user));
-                // localStorage.setItem("last_login", new Date().getTime());
                 alert("Welcome:"+rs.data.name);
-                if (params['from']) {
-                    window.location.href = params['from'];
-                }else {
-                    alert("do nothing");    
-                }
+                
+                window.location.href = base.local_url+"view/index";
+                // if (params['from']) {
+                //     window.location.href = params['from'];
+                // }else {
+                //     alert("do nothing");    
+                // }
             }else {
                 alert(rs.data.errormsg);
             }

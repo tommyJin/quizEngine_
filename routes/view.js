@@ -17,9 +17,6 @@ router.get('/login', function(req, res, next) {
     res.render('login');
 });
 
-router.get('/setting', function (req,res,next) {
-    res.render('setting');
-});
 
 router.get('/user', function (req,res,next) {
     res.render('user');
@@ -31,6 +28,10 @@ router.get('/quiz', function (req,res,next) {
 
 router.get('/quiz/get', function (req,res,next) {
     res.render('quiz_get');
+});
+
+router.get('/quiz/setting', function (req,res,next) {
+    res.render('setting');
 });
 
 module.exports = router;

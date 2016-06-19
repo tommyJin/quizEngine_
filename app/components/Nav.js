@@ -20,7 +20,7 @@ class Nav extends Component{
         return(
             <div>
                 <div className="navbar-header">
-                    <a href="#" className="navbar-brand">Student Client</a>
+                    <a href="view/index" className="navbar-brand">Student Client</a>
                     <button className="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
@@ -30,10 +30,10 @@ class Nav extends Component{
                 <div className="navbar-collapse collapse" id="navbar-main">
                     <ul className="nav navbar-nav">
                         <li>
-                            <a href="#">QUIZ</a>
+                            <a href="view/quiz">QUIZ</a>
                         </li>
                         <li>
-                            <a href="#">PROFILE</a>
+                            <a href="view/user">PROFILE</a>
                         </li>
                         <li>
                             <a href="user/setting">SETTING</a>
@@ -41,7 +41,7 @@ class Nav extends Component{
                     </ul>
 
                     <ul className="nav navbar-nav navbar-right">
-                        <li><a href="user" >Welcome: student</a></li>
+                        <li><a href="view/user" >Welcome: student</a></li>
                         <li><a href="" onClick={this.handleLogout} class="btn btn-info">Logout</a></li>
                     </ul>
 
