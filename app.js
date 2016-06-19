@@ -43,7 +43,7 @@ app.use('/static', express.static(__dirname + '/public'));
 //session filter
 app.use(function (req, res, next) {
     var url = req.url;
-    console.log("url="+url+" originUrl="+req.originalUrl);
+    // console.log("url="+url+" originUrl="+req.originalUrl);
     if (url.indexOf( '/view/')>-1 || url.indexOf('/api/') >-1 ) {
         var user = req.session.user;
         if (user) {
