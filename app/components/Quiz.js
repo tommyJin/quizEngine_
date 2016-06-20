@@ -11,8 +11,13 @@ class Quiz extends Component {
         this.addNewQuiz = this.addNewQuiz.bind(this);
         this.query = this.query.bind(this);
         this.handleKeyword = this.handleKeyword.bind(this);
+        this.handleDetail = this.handleDetail.bind(this);
+        this.pageNumbers = this.pageNumbers.bind(this);
         this.state = {
             keyword: '',
+            category_id: '',
+            level_id : '',
+
             td: '',
             pager: '',
             list: '',
@@ -29,10 +34,24 @@ class Quiz extends Component {
 
     }
 
-    query() {
+    query(keyword, category_id, level_id, pageNumber) {
+        console.log('keyword in query=' + keyword);
+        console.log('category_id in query=' + category_id);
+        console.log('level_id in query=' + level_id);
+        console.log('pageNumber in query=' + pageNumber);
+        
+        this.setState = {
+          pageNumber : pageNumber  
+        };
 
+        return false;//prevent navigation to that link
     }
 
+    handleDetail(id) {
+        console.log('id in detail=' + id);
+        util.goTo('view/quiz/get?id='+id);
+        return false;//prevent navigation to that link
+    }
 
     handleKeyword(e) {
         this.setState({keyword: e.target.value});
@@ -68,14 +87,8 @@ class Quiz extends Component {
                     </tr>
                 )
             });
-            console.log("td = " + td);
-            var pager = "pager";
-            console.log("pager = " + pager);
-
-
             self.setState({
                 td: td,
-                pager: pager,
                 list: list,
                 pageSize: pageSize,
                 totalPage: totalPage,
@@ -84,21 +97,38 @@ class Quiz extends Component {
                 pageNumber: pageNumber,
                 lastPage: lastPage
             });
-
-
         });
     }
 
+    pageNumbers() {
+        let result = [];
+        for (let i = 1; i <= this.state.totalPage; i++) {
+            result.push(
+                <li  key={i} className={'paginate_button ' +i==this.state.pageNumber?' active':'' }>
+                    <a type="button" href="" className={i === this.props.current ? 'current' : ''}
+                       onClick={this.query.bind(this,this.state.keyword,this.state.category_id,this.state.level_id,i)}
+                    >{i}</a></li>
+            );
+        }
+        return result;
+    }
+
     render() {
-        var pager = function () {
-            for (var i = 0; i < this.state.totalPage; i++) {
-                return (
-                    <li class='paginate_button" + (pageNumber == i ? " active" : "") + "'><a href=''
-                                                                                             onclick='queryHall(" + i + ");return false'>"
-                        + i + "</a></li>
-                )
-            }
-        };
+        var _this = this, td = $.map(this.state.list, function (o, index) {
+            return (
+                <tr key={index}>
+                    <td className='center'> {o.id} </td>
+                    <td className='center'>{o.name}</td>
+                    <td className='center'> {o.category_name} </td>
+                    <td className='center'> {o.level_name} </td>
+                    <td className='center'>
+                        <button type='button' onClick={_this.handleDetail.bind(_this,o.id)} className='btn btn-danger'>
+                            View
+                        </button>
+                    </td>
+                </tr>);
+        }.bind(_this));
+        console.log("firstPage "+this.state.firstPage+" last "+this.state.lastPage);
         return (
             <div>
                 <div className="row">
@@ -130,9 +160,9 @@ class Quiz extends Component {
                                 <th style={{width: '20%'}}>Actions</th>
                             </tr>
                             </thead>
-
-                            <QuizList quizzes={this.state.list}/>
-
+                            <tbody id="list">
+                            {td}
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -143,14 +173,14 @@ class Quiz extends Component {
                         <div className='col-sm-8'>
                             <div className='dataTables_paginate paging_simple_numbers'>
                                 <ul className='pagination'>
-                                    <li className='paginate_button previous " + (firstPage ? " disabled" : "") + "'><a
-                                        href=''
-                                        onclick='queryHall(" + ( (pageNumber - 1)>0?(pageNumber - 1):1 ) + ");return false'>Previous</a>
+                                    <li className={'paginate_button previous ' +this.state.firstPage?' disabled':'' }>
+                                        <a type="button" href="" onClick={this.query.bind(this,this.state.keyword,this.state.category_id,this.state.level_id, this.state.pageNumber-1>0?(this.state.pageNumber-1):1)}>
+                                        Previous</a>
                                     </li>
-                                    {this.state.totalPage}
-                                    <li className='paginate_button next " + (lastPage ? " disabled" : "") + "'>
-                                        <a href=''
-                                           onclick='queryHall(" + ( (pageNumber + 1)<=totalPage?(pageNumber + 1):totalPage ) + ");return false'>Next</a>
+                                    {this.pageNumbers()}
+                                    <li  className={'paginate_button next ' +this.state.lastPage?' disabled':'' }>
+                                        <a type="button" href="" onClick={this.query.bind(this,this.state.keyword,this.state.category_id,this.state.level_id, this.state.totalPage+1<=this.state.totalPage?(this.state.pageNumber+1):this.state.totalPage)}>
+                                            Next</a>
                                     </li>
                                 </ul>
                             </div>
@@ -163,48 +193,47 @@ class Quiz extends Component {
         )
     }
 }
-
-class QuizList extends Component {
-    constructor(props) {
-        super(props);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleDetail = this.handleDetail.bind(this);
-    }
-
-    handleDetail(url) {
-        util.goTo(url);
-    }
-
-    handleDelete(id) {
-        var q = {};
-        q.id = id;
-        quiz.delete(q,function (rs) {
-            alert(rs.data);
-        })
-    }
-
-    render() {
-        var _this = this,td = $.map(this.props.quizzes, function (o, index) {
-            return (
-                <tr key={index}>
-                    <td className='center'> {o.id} </td>
-                    <td className='center'><a target='_blank' href=''
-                                              onClick={this.handleDetail.bind(null,'view/quiz/get?id='+o.id)}> {o.name} </a>
-                    </td>
-                    <td className='center'> {o.category_name} </td>
-                    <td className='center'> {o.level_name} </td>
-                    <td className='center'>
-                        <button type='button' onClick={_this.handleDelete} className='btn btn-danger'>delete</button>
-                    </td>
-                </tr>);
-        }.bind(this));
-        return (
-            <tbody id="list">
-            {td}
-            </tbody>
-        )
-    }
-}
+//
+// class QuizList extends Component {
+//     constructor(props) {
+//         super(props);
+//         this.handleDelete = this.handleDelete.bind(this);
+//         this.handleDetail = this.handleDetail.bind(this);
+//     }
+//
+//     handleDetail(url) {
+//         util.goTo(url);
+//     }
+//
+//     handleDelete(id) {
+//         var q = {};
+//         q.id = id;
+//         quiz.delete(q,function (rs) {
+//             alert(rs.data);
+//         })
+//     }
+//
+//     render() {
+//         var _this = this,td = $.map(this.props.quizzes, function (o, index) {
+//             return (
+//                 <tr key={index}>
+//                     <td className='center'> {o.id} </td>
+//                     <td className='center'><a href='#' onClick={_this.handleDetail.bind(null,'view/quiz/get?id='+o.id)}> {o.name} </a>
+//                     </td>
+//                     <td className='center'> {o.category_name} </td>
+//                     <td className='center'> {o.level_name} </td>
+//                     <td className='center'>
+//                         <button type='button' onClick={_this.handleDelete} className='btn btn-danger'>delete</button>
+//                     </td>
+//                 </tr>);
+//         }.bind(this));
+//         return (
+//             <tbody id="list">
+//             {td}
+//             </tbody>
+//         )
+//     }
+// }
 //
 // class QuizPager extends Component {
 //     constructor(props) {

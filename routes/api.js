@@ -195,6 +195,38 @@ router.get('/quiz/get', function (req,res,next) {
     }
 });
 
+
+router.get('/quiz/get', function (req,res,next) {
+    var user = req.session.user;
+    var data = {};
+    if(user){
+        var paras = {};
+        paras.id = user.id;
+        paras.token = user.token;
+        var quiz_id = req.query.id;
+
+        var url = base + "student/quiz/get?&quiz_id="+quiz_id+"&id="+paras.id+"&token="+paras.token;
+        request.get(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                // console.log(body);
+                var parsed = JSON.parse(body);
+                console.log("status:" + parsed.status);
+                console.log("data:" + parsed.data);
+                res.json(parsed);
+            }else {
+                data.errormsg = "Something unknown happened!";
+                data.status = 400;
+                res.json(data);
+            }
+        });
+    }else {
+        data.errormsg = "Please login first!";
+        data.status = 400;
+        res.json(data);
+    }
+});
+
+
 router.get('/setting', function (req,res,next) {
     res.json();
 });
