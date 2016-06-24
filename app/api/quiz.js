@@ -27,7 +27,7 @@ module.exports = {
         
     },
     
-    generate(q,cb){
+    addQuiz(p,q,cb){
         var url = base.local_url+"api/quiz/add";
         console.log("generate a new quiz");
         $.ajax({
@@ -36,7 +36,26 @@ module.exports = {
             data:q,
             dataType:'JSON',
             success(rs){
-                console.log("quizzes="+rs);
+                console.log("quiz="+rs);
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
+
+
+    maxSize(p,q,cb){
+        var url = base.local_url+"api/quiz/question/maxSize";
+        console.log("get max size");
+        $.ajax({
+            url : url,
+            type:'GET',
+            data:q,
+            dataType:'JSON',
+            success(rs){
+                console.log("quiz="+rs);
                 cb(rs);
             },
             error(){

@@ -10,7 +10,8 @@ module.exports = {
         login:path.resolve(__dirname,"app/login.js"),
         user:path.resolve(__dirname,"app/user.js"),
         nav:path.resolve(__dirname,"app/nav.js"),
-        quiz:path.resolve(__dirname,"app/quiz.js")
+        quiz:path.resolve(__dirname,"app/quiz.js"),
+        setting:path.resolve(__dirname,"app/setting.js")
     },
     output: {
         path: path.resolve(__dirname, "public"),

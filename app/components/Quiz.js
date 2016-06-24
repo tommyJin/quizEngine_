@@ -57,6 +57,8 @@ class Quiz extends Component {
         this.setState({keyword: e.target.value});
     }
 
+
+
     componentDidMount() {
         console.log('componentDidMount');
         var self = this;
@@ -87,6 +89,7 @@ class Quiz extends Component {
                     </tr>
                 )
             });
+            console.log('before setstate list='+self.state.list);
             self.setState({
                 td: td,
                 list: list,
@@ -97,7 +100,12 @@ class Quiz extends Component {
                 pageNumber: pageNumber,
                 lastPage: lastPage
             });
+            console.log('after setstate list='+self.state.list);
         });
+    }
+
+    componentWillReceiveProps(){
+
     }
 
     pageNumbers() {
@@ -105,9 +113,9 @@ class Quiz extends Component {
         for (let i = 1; i <= this.state.totalPage; i++) {
             result.push(
                 <li  key={i} className={'paginate_button ' +i==this.state.pageNumber?' active':'' }>
-                    <a type="button" href="" className={i === this.props.current ? 'current' : ''}
+                    <button type="button" className={  i === this.props.current ? ' current btn btn-primary' : ' btn btn-primary'}
                        onClick={this.query.bind(this,this.state.keyword,this.state.category_id,this.state.level_id,i)}
-                    >{i}</a></li>
+                    >{i}</button></li>
             );
         }
         return result;
@@ -129,6 +137,7 @@ class Quiz extends Component {
                 </tr>);
         }.bind(_this));
         console.log("firstPage "+this.state.firstPage+" last "+this.state.lastPage);
+
         return (
             <div>
                 <div className="row">
@@ -193,69 +202,6 @@ class Quiz extends Component {
         )
     }
 }
-//
-// class QuizList extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.handleDelete = this.handleDelete.bind(this);
-//         this.handleDetail = this.handleDetail.bind(this);
-//     }
-//
-//     handleDetail(url) {
-//         util.goTo(url);
-//     }
-//
-//     handleDelete(id) {
-//         var q = {};
-//         q.id = id;
-//         quiz.delete(q,function (rs) {
-//             alert(rs.data);
-//         })
-//     }
-//
-//     render() {
-//         var _this = this,td = $.map(this.props.quizzes, function (o, index) {
-//             return (
-//                 <tr key={index}>
-//                     <td className='center'> {o.id} </td>
-//                     <td className='center'><a href='#' onClick={_this.handleDetail.bind(null,'view/quiz/get?id='+o.id)}> {o.name} </a>
-//                     </td>
-//                     <td className='center'> {o.category_name} </td>
-//                     <td className='center'> {o.level_name} </td>
-//                     <td className='center'>
-//                         <button type='button' onClick={_this.handleDelete} className='btn btn-danger'>delete</button>
-//                     </td>
-//                 </tr>);
-//         }.bind(this));
-//         return (
-//             <tbody id="list">
-//             {td}
-//             </tbody>
-//         )
-//     }
-// }
-//
-// class QuizPager extends Component {
-//     constructor(props) {
-//         super(props);
-//     }
-//
-//
-//     render() {
-//         var page = function () {
-//             return (
-//                 <li class='paginate_button" + (pageNumber == i ? " active" : "") + "'><a href=''
-//                                                                                          onclick='queryHall(" + i + ");return false'>"
-//                     + i + "</a></li>
-//             )
-//         }.bind(this));
-//        
-//         return (
-//             <div>
-//                 {page}
-//             </div>
-//         )
-//     }
-// }
+
 
 export default Quiz

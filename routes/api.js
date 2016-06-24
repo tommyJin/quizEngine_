@@ -142,9 +142,91 @@ router.get('/quiz/add',function (req,res,next) {
         paras.id = user.id;
         paras.token = user.token;
         var level_id = req.query.level_id;
+        var name = req.query.name;
+        var category_id = req.query.category_id;
+        var number = req.query.number;
+
+        var url = base + "student/quiz/add?id="+paras.id+"&token="+paras.token+"&paras.number="+number;
+        if (level_id!=null && level_id.length>0){
+            url += "&paras.question_level_id="+level_id;
+        }
+        if (name!=null && name.length>0){
+            url += "&paras.name="+name;
+        }
+        if (category_id!=null && category_id.length>0){
+            url += "&paras.question_category_id="+category_id;
+        }
+        console.log("url="+url);
+        request.get(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                // console.log(body);
+                var parsed = JSON.parse(body);
+                console.log("status:" + parsed.status);
+                console.log("data:" + parsed.data);
+                res.json(parsed);
+            }else {
+                data.errormsg = "Something unknown happened!";
+                data.status = 400;
+                res.json(data);
+            }
+        });
+    }else {
+        data.errormsg = "Please login first!";
+        data.status = 400;
+        res.json(data);
+    }
+});
+
+router.get('/quiz/get', function (req,res,next) {
+    var user = req.session.user;
+    var data = {};
+    if(user){
+        var paras = {};
+        paras.id = user.id;
+        paras.token = user.token;
+        var quiz_id = req.query.id;
+
+        var url = base + "student/quiz/get?&quiz_id="+quiz_id+"&id="+paras.id+"&token="+paras.token;
+        request.get(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                // console.log(body);
+                var parsed = JSON.parse(body);
+                console.log("status:" + parsed.status);
+                console.log("data:" + parsed.data);
+                res.json(parsed);
+            }else {
+                data.errormsg = "Something unknown happened!";
+                data.status = 400;
+                res.json(data);
+            }
+        });
+    }else {
+        data.errormsg = "Please login first!";
+        data.status = 400;
+        res.json(data);
+    }
+});
+
+
+router.get('/quiz/question/maxSize', function (req,res,next) {
+    var user = req.session.user;
+    var data = {};
+    if(user){
+        var paras = {};
+        paras.id = user.id;
+        paras.token = user.token;
+        var level_id = req.query.level_id;
         var category_id = req.query.category_id;
 
-        var url = base + "student/quiz/add?paras.name="+name+"&paras.content="+content+"&paras.question_level_id="+level_id+"&paras.question_category_id="+category_id+"&id="+paras.id+"&token="+paras.token;
+        var url = base + "student/quizquestion/maxSize?id="+paras.id+"&token="+paras.token;
+        
+        if(level_id!=null && level_id.length>0){
+            url+= "&level_id="+level_id;
+        }
+        if(category_id!=null && category_id.length>0){
+            url+= "&category_id="+category_id;
+        }
+        
         request.get(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 // console.log(body);
@@ -165,16 +247,16 @@ router.get('/quiz/add',function (req,res,next) {
     }
 });
 
-router.get('/quiz/get', function (req,res,next) {
+
+router.get('/question/categories',function (req,res,next) {
     var user = req.session.user;
     var data = {};
     if(user){
         var paras = {};
         paras.id = user.id;
         paras.token = user.token;
-        var quiz_id = req.query.id;
 
-        var url = base + "student/quiz/get?&quiz_id="+quiz_id+"&id="+paras.id+"&token="+paras.token;
+        var url = base + "questioncategory?id="+paras.id+"&token="+paras.token;
         request.get(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 // console.log(body);
@@ -196,16 +278,15 @@ router.get('/quiz/get', function (req,res,next) {
 });
 
 
-router.get('/quiz/get', function (req,res,next) {
+router.get('/question/levels',function (req,res,next) {
     var user = req.session.user;
     var data = {};
     if(user){
         var paras = {};
         paras.id = user.id;
         paras.token = user.token;
-        var quiz_id = req.query.id;
 
-        var url = base + "student/quiz/get?&quiz_id="+quiz_id+"&id="+paras.id+"&token="+paras.token;
+        var url = base + "questionlevel?id="+paras.id+"&token="+paras.token;
         request.get(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 // console.log(body);
@@ -227,10 +308,33 @@ router.get('/quiz/get', function (req,res,next) {
 });
 
 
-router.get('/setting', function (req,res,next) {
-    res.json();
+router.get('/question/types',function (req,res,next) {
+    var user = req.session.user;
+    var data = {};
+    if(user){
+        var paras = {};
+        paras.id = user.id;
+        paras.token = user.token;
+
+        var url = base + "questiontype?id="+paras.id+"&token="+paras.token;
+        request.get(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                // console.log(body);
+                var parsed = JSON.parse(body);
+                console.log("status:" + parsed.status);
+                console.log("data:" + parsed.data);
+                res.json(parsed);
+            }else {
+                data.errormsg = "Something unknown happened!";
+                data.status = 400;
+                res.json(data);
+            }
+        });
+    }else {
+        data.errormsg = "Please login first!";
+        data.status = 400;
+        res.json(data);
+    }
 });
-
-
 
 module.exports = router;
