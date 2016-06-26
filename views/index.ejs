@@ -3,8 +3,23 @@
 <div id="nav"></div>
 
 <h1>welcome</h1>
-
+<img class="logo" src="/static/image/newcastle.jpg"/>
 <script src="/static/nav.bundle.js"></script>
+
+<script>
+    $(".logo").hover(function() {
+        $(event.target).css("z-index", "1000");
+        $(event.target).animate({
+            height: "500px"
+        }, "slow");
+    }, function() {
+        $(event.target).css("z-index", "100");
+        $(event.target).animate({
+            height: "400px"
+        }, "slow");
+    });
+
+</script>
 
 <% include layout/footer.ejs %>
 

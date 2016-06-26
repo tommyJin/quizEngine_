@@ -14,6 +14,7 @@ class Setting extends Component{
         this.handleCategories = this.handleCategories.bind(this);
         this.handleLevels = this.handleLevels.bind(this);
         this.handleNumber = this.handleNumber.bind(this);
+        this.handleRadio = this.handleRadio.bind(this);
         this.handleGoTo = this.handleGoTo.bind(this);
         this.state = {
             categories: '',
@@ -26,7 +27,8 @@ class Setting extends Component{
             number:5,
             maxSize:0,
             goToCss:'none',
-            quiz_id:''
+            quiz_id:'',
+            answered:'2'
         };
     }
 
@@ -38,7 +40,7 @@ class Setting extends Component{
             var categories = $.map(data,function (o,index) {
                 return(<option key={index} value={o.id}>{o.name}</option>);
             });
-            categories.unshift(<option value="">All Categories</option>);
+            categories.unshift(<option key="" value="">All Categories</option>);
             self.setState({
                 categories:categories
             });
@@ -48,7 +50,7 @@ class Setting extends Component{
             var levels = $.map(data,function (o,index) {
                 return(<option key={index} value={o.id}>{o.name}</option>);
             });
-            levels.unshift(<option value="">All Levels</option>);
+            levels.unshift(<option key="" value="">All Levels</option>);
             self.setState({
                 levels:levels
             });
@@ -77,6 +79,7 @@ class Setting extends Component{
         q.level_id = this.state.level_id;
         q.category_id = e.target.value;
         console.log("get size");
+        q.answered = this.state.answered;
         quiz.maxSize(self, q,function (rs) {
             var size = rs.data;
             console.log("size="+size);
@@ -99,6 +102,7 @@ class Setting extends Component{
         var q = {};
         q.level_id = e.target.value;
         q.category_id = this.state.category_id;
+        q.answered = this.state.answered;
         quiz.maxSize(self,q,function (rs) {
             var size = rs.data;
             console.log("size="+size);
@@ -130,12 +134,32 @@ class Setting extends Component{
         return false;//prevent navigation to that link
     }
     
+    handleRadio(e){
+        this.setState({
+            answered:e.target.value
+        });
+        var self = this;
+        console.log("get size");
+        var q = {};
+        q.level_id = this.state.level_id;
+        q.category_id = this.state.category_id;
+        q.answered = e.target.value;
+        quiz.maxSize(self,q,function (rs) {
+            var size = rs.data;
+            console.log("size="+size);
+            self.setState({
+                maxSize:size
+            });
+        });
+    }
+    
     handleSubmit(e){
         var q = {};
         q.name = this.state.name;
         q.category_id = this.state.category_id;
         q.level_id = this.state.level_id;
         q.number = this.state.number;
+        q.answered = this.state.answered;//1->remove  2->dont remove
         if(this.state.maxSize<this.state.number){
             alert("You can not set the number of questions greater than the max size!");
         }else {
@@ -179,6 +203,15 @@ class Setting extends Component{
                     <label className="input_left">Number</label>
                     <input type="number" onChange={this.handleNumber} className="form-control input_right" value={this.state.number} />
                     <p>Avaiable:{this.state.maxSize}</p>
+                </div>
+                <div className="input_div">
+                    <label className="input_left">Remove answered questions?</label>
+                    <label className="radio-inline">
+                        <input type="radio" name="answered" value="1"  checked={this.state.answered==1} onChange={this.handleRadio}/>Remove
+                    </label>
+                    <label className="radio-inline">
+                        <input type="radio" name="answered" value="2" checked={this.state.answered==2} onChange={this.handleRadio}/>Don't remove
+                    </label>
                 </div>
                 <button type="button" onClick={this.handleSubmit} className="btn btn-default">Submit</button>
                 <button type="reset" className="btn btn-default">Reset</button>

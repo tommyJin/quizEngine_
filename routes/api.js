@@ -145,8 +145,9 @@ router.get('/quiz/add',function (req,res,next) {
         var name = req.query.name;
         var category_id = req.query.category_id;
         var number = req.query.number;
+        var answered = req.query.answered;
 
-        var url = base + "student/quiz/add?id="+paras.id+"&token="+paras.token+"&paras.number="+number;
+        var url = base + "student/quiz/add?id="+paras.id+"&token="+paras.token+"&paras.number="+number+"&paras.answered="+answered;
         if (level_id!=null && level_id.length>0){
             url += "&paras.question_level_id="+level_id;
         }
@@ -217,8 +218,9 @@ router.get('/quiz/question/maxSize', function (req,res,next) {
         paras.token = user.token;
         var level_id = req.query.level_id;
         var category_id = req.query.category_id;
+        var answered = req.query.answered;
 
-        var url = base + "student/quizquestion/maxSize?id="+paras.id+"&token="+paras.token;
+        var url = base + "student/quizquestion/maxSize?id="+paras.id+"&token="+paras.token+"&answered="+answered;
         
         if(level_id!=null && level_id.length>0){
             url+= "&level_id="+level_id;

@@ -36,7 +36,7 @@ class Nav extends Component{
                             <a href="view/user">PROFILE</a>
                         </li>
                         <li>
-                            <a href="user/setting">SETTING</a>
+                            <a href="view/quiz/setting">SETTING</a>
                         </li>
                     </ul>
 
