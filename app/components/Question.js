@@ -6,20 +6,18 @@ import quiz from '../api/quiz';
 import util from '../util';
 import cookie from 'react-cookie';
 
-import Question_index from './Question_index';
-
 import True_False from './question_types/True_false';
 
 class Question extends Component {
 
     constructor(props) {
         super(props);
-        // this.handleIndex = this.handleIndex.bind(this);
         this.indexList = this.indexList.bind(this);
         this.handlePrevious = this.handlePrevious.bind(this);
         this.handleNext = this.handleNext.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleFinish = this.handleFinish.bind(this);
+        this.handleChoose = this.handleChoose.bind(this);
         this.state = {
             questions: '',
             question: '',
@@ -57,7 +55,7 @@ class Question extends Component {
     }
 
     handleIndex(i) {
-        console.log('change index to '+i);
+        // console.log('change index to '+i);
         var questions = this.state.questions;
         this.setState({
             current: i,
@@ -151,13 +149,23 @@ class Question extends Component {
         })
     }
 
+    innerHtml(){
+        return{__html:this.state.question.content};
+    }
+
+    handleChoose(value){
+        console.log("choose "+value);
+    }
+
 
     render() {
-        var question, _question = this.state.question;
+        var question, _question = this.state.question, type = _question.question_type_id;
         console.log('_question='+JSON.stringify(_question));
-        if (_question.question_type_id == 5) {
-            question = <True_False question={_question}/>
-        } else {
+        if (type == 5) {
+            question = <True_False question={_question} handleChoose={this.handleChoose}/>
+        } else if( type == 6){
+            
+        }else {
             question = <div>sss</div>
         }
 
@@ -174,13 +182,15 @@ class Question extends Component {
 
                 <br className="clear"/>
                 <div className="question_content">
-                    Title is here...
+                    <div dangerouslySetInnerHTML={this.innerHtml()} />
                 </div>
 
-                {question}
+                <div className="question_answer">
+                    {question}
+                </div>
 
                 <div className="feedback_general">
-                    general feedback is here
+                    {this.state.question.feedback}
                 </div>
             </div>
         )

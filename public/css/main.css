@@ -142,8 +142,15 @@ sub{ vertical-align:text-bottom;}
 .question_content{
     width: 800px;
     min-height: 50px;
-    margin: 10px auto 10px auto;
+    margin: 20px auto 10px 10px;
 }
+
+.question_answer{
+    width: 800px;
+    min-height: 50px;
+    margin: 20px auto 10px 10px;
+}
+
 
 .true_false{
     width: 800px;

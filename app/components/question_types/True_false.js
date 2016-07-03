@@ -6,27 +6,32 @@ import React, {Component} from 'react';
 class True_false extends Component{
     constructor(props){
         super(props);
-        // this.handleLogout = this.handleLogout.bind(this);
+    }
+
+    handleChoose(value){
+        return value;
     }
     
     render(){
+        var question = this.props.question;
+        var answer = JSON.parse(question.answer);
         return(
             <div className="question true_false">
                 <div className="radio">
                     <label>
-                        <input type="radio" name="true_false" value=""/>True
+                        <input type="radio" name="true_false" value="true" onClick={this.props.handleChoose.bind(this,true)}/>{answer.true_content}
                     </label>
                 </div>
                 <div className="feedback_individual">
-                    individual feedback here
+                    {answer.feedback_true}
                 </div>
                 <div className="radio">
                     <label>
-                        <input type="radio" name="true_false" value="false"/>False
+                        <input type="radio" name="true_false" value="false" onClick={this.props.handleChoose.bind(this,false)}/>{answer.false_content}
                     </label>
                 </div>
                 <div className="feedback_individual">
-                    individual feedback here
+                    {answer.feedback_false}
                 </div>
             </div>
         )
