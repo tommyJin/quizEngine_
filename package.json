@@ -24,10 +24,12 @@
   },
   "homepage": "https://github.com/tommyJin/quizEngine_FrontEnd#readme",
   "dependencies": {
-    "mysql": "^2.10.2",
     "jquery": "^3.0.0",
+    "mysql": "^2.10.2",
     "react": "^15.1.0",
+    "react-cookie": "^0.4.7",
     "react-dom": "^15.1.0",
+    "react-router": "^2.5.2",
     "request": "^2.72.0"
   },
   "devDependencies": {

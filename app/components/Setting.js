@@ -6,6 +6,7 @@ import quiz from '../api/quiz';
 import category from '../api/question_category';
 import level from '../api/question_level';
 import util from '../util';
+import cookie from 'react-cookie';
 
 class Setting extends Component{
     constructor(props) {
@@ -130,7 +131,7 @@ class Setting extends Component{
 
     handleGoTo() {
         var id = this.state.quiz_id;
-        util.goTo('view/quiz_question?id='+id);
+        util.goTo('view/quiz/question');
         return false;//prevent navigation to that link
     }
     
@@ -139,7 +140,7 @@ class Setting extends Component{
             answered:e.target.value
         });
         var self = this;
-        console.log("get size");
+        // console.log("get size");
         var q = {};
         q.level_id = this.state.level_id;
         q.category_id = this.state.category_id;
@@ -171,14 +172,15 @@ class Setting extends Component{
                     self.setState({
                         quiz_id:rs.data.id,
                         goToCss:''
-                    })
+                    });
+                    cookie.save('quiz_id', rs.data.id, { path: '/' });
+                    console.log('quiz_id in cookie = '+cookie.load('quiz_id'));
                 }else {
                     alert("Generate quiz failed!");
                 }
             });
         }
     }
-    
     render(){
         return(
             <form role="form" id="form">
@@ -194,7 +196,6 @@ class Setting extends Component{
                         {this.state.levels}
                     </select>
                 </div>
-           
                 <div className="input_div">
                     <label className="input_left">Name</label>
                     <input type="text" disabled className="form-control input_right" value={this.state.name} />
@@ -216,7 +217,6 @@ class Setting extends Component{
                 <button type="button" onClick={this.handleSubmit} className="btn btn-default">Submit</button>
                 <button type="reset" className="btn btn-default">Reset</button>
                 <button type="button" style={{display:this.state.goToCss}} onClick={this.handleGoTo} className="btn btn-success">Take the quiz now!</button>
-
                 <input type="hidden" id="id" name="id"/>
             </form>
         )

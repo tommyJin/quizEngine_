@@ -35,7 +35,7 @@ router.get('/quiz/setting', function (req,res,next) {
 });
 
 router.get('/quiz/question',function (req,res,next) {
-   res.render('quiz_question'); 
+   res.render('quiz_question',{id:req.query.id}); 
 });
 
 module.exports = router;

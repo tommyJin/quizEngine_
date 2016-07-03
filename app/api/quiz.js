@@ -29,7 +29,7 @@ module.exports = {
     
     addQuiz(p,q,cb){
         var url = base.local_url+"api/quiz/add";
-        console.log("generate a new quiz");
+        // console.log("generate a new quiz");
         $.ajax({
             url : url,
             type:'GET',
@@ -45,6 +45,37 @@ module.exports = {
         });
     },
 
+    getQuestions(p,q,cb){
+        var url = base.local_url+"api/quiz/question";
+        $.ajax({
+            url : url,
+            type:'GET',
+            data:q,
+            dataType:'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
+    
+    saveAnswer(p,q,cb){
+        var url = base.local_url+"api/quiz/saveAnswer";
+        $.ajax({
+            url : url,
+            type:'GET',
+            data:q,
+            dataType:'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
 
     maxSize(p,q,cb){
         var url = base.local_url+"api/quiz/question/maxSize";

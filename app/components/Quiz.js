@@ -8,7 +8,6 @@ import util from '../util';
 class Quiz extends Component {
     constructor(props) {
         super(props);
-        this.addNewQuiz = this.addNewQuiz.bind(this);
         this.query = this.query.bind(this);
         this.handleKeyword = this.handleKeyword.bind(this);
         this.handleDetail = this.handleDetail.bind(this);
@@ -30,25 +29,15 @@ class Quiz extends Component {
         };
     }
 
-    addNewQuiz() {
-
-    }
-
     query(keyword, category_id, level_id, pageNumber) {
-        console.log('keyword in query=' + keyword);
-        console.log('category_id in query=' + category_id);
-        console.log('level_id in query=' + level_id);
-        console.log('pageNumber in query=' + pageNumber);
-        
         this.setState = {
           pageNumber : pageNumber  
         };
-
         return false;//prevent navigation to that link
     }
 
     handleDetail(id) {
-        console.log('id in detail=' + id);
+        // console.log('id in detail=' + id);
         util.goTo('view/quiz/get?id='+id);
         return false;//prevent navigation to that link
     }
@@ -56,8 +45,6 @@ class Quiz extends Component {
     handleKeyword(e) {
         this.setState({keyword: e.target.value});
     }
-
-
 
     componentDidMount() {
         console.log('componentDidMount');
@@ -71,9 +58,6 @@ class Quiz extends Component {
             var totalRow = data.totalRow;
             var firstPage = data.firstPage;
             var lastPage = data.lastPage;
-
-            console.log("quizzes= %j", data);
-            console.log("list in component=  %j", list);
 
             var td = $.map(list, function (o) {
                 return (
@@ -89,7 +73,6 @@ class Quiz extends Component {
                     </tr>
                 )
             });
-            console.log('before setstate list='+self.state.list);
             self.setState({
                 td: td,
                 list: list,
@@ -100,12 +83,7 @@ class Quiz extends Component {
                 pageNumber: pageNumber,
                 lastPage: lastPage
             });
-            console.log('after setstate list='+self.state.list);
         });
-    }
-
-    componentWillReceiveProps(){
-
     }
 
     pageNumbers() {
@@ -113,7 +91,7 @@ class Quiz extends Component {
         for (let i = 1; i <= this.state.totalPage; i++) {
             result.push(
                 <li  key={i} className={'paginate_button ' +i==this.state.pageNumber?' active':'' }>
-                    <button type="button" className={  i === this.props.current ? ' current btn btn-primary' : ' btn btn-primary'}
+                    <button type="button" className={  i === this.state.current ? ' current btn btn-primary' : ' btn btn-primary'}
                        onClick={this.query.bind(this,this.state.keyword,this.state.category_id,this.state.level_id,i)}
                     >{i}</button></li>
             );
@@ -136,8 +114,7 @@ class Quiz extends Component {
                     </td>
                 </tr>);
         }.bind(_this));
-        console.log("firstPage "+this.state.firstPage+" last "+this.state.lastPage);
-
+        // console.log("firstPage "+this.state.firstPage+" last "+this.state.lastPage);
         return (
             <div>
                 <div className="row">
@@ -147,8 +124,6 @@ class Quiz extends Component {
                             <a href="view/quiz/setting" className="btn btn-success">Generate a new one</a>
                         </div>
                     </div>
-
-
                     <div className="col-sm-6">
                         <div id="dataTables-example_filter" className="dataTables_filter">
                             <label>Keyword:<input type="search" id="keyword" onChange={this.handleKeyword}
@@ -176,7 +151,6 @@ class Quiz extends Component {
                     </div>
                 </div>
                 <div className="row" id="pager">
-
                     <div>
                         <div className='col-sm-4'> {this.state.totalRow} records</div>
                         <div className='col-sm-8'>
@@ -195,8 +169,6 @@ class Quiz extends Component {
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         )

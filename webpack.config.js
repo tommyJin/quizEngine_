@@ -11,6 +11,7 @@ module.exports = {
         user:path.resolve(__dirname,"app/user.js"),
         nav:path.resolve(__dirname,"app/nav.js"),
         quiz:path.resolve(__dirname,"app/quiz.js"),
+        question:path.resolve(__dirname,"app/question.js"),
         setting:path.resolve(__dirname,"app/setting.js")
     },
     output: {

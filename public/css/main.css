@@ -96,3 +96,85 @@ sub{ vertical-align:text-bottom;}
 }
 
 /* tutorial end */
+
+/* question start */
+
+.question_body {
+    border: 1px solid gray;
+    margin: 10px auto 10px auto;
+    width: 1000px;
+    min-height: 450px;
+    padding: 20px 100px 20px 100px;
+}
+
+.question_body .header{
+    position: relative;
+    top: 5px;
+    float: right;
+    max-width: 300px;
+}
+
+.question_body .header button{
+    margin:5px;
+}
+
+.question_body .question_index{
+    float: left;
+    position: relative;
+    top:5px;
+    max-width:500px;
+}
+
+.question_body .question_index button{
+    width: 50px;
+    margin: 5px;
+}
+
+.question_body .question_index .current{
+    border: 2px solid gold;
+}
+
+.question_body .question_index .saved{
+    background-color: #5cb85c;
+}
+
+
+.question_content{
+    width: 800px;
+    min-height: 50px;
+    margin: 10px auto 10px auto;
+}
+
+.true_false{
+    width: 800px;
+    margin: 20px auto 0 auto;
+}
+
+.true_false .radio {
+    width: 100%;
+    min-height: 20px;
+    margin-top: 20px;
+}
+
+/* question end */
+
+/* feedback start */
+
+
+.feedback_general{
+    display: none;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.feedback_individual{
+    display: none;
+    width: 100%;
+}
+
+/* feedback end */
+
+/* common use */
+.clear {
+    clear: both;
+}
