@@ -165,6 +165,7 @@ class Question extends Component {
             question = <True_False question={_question} handleChoose={this.handleChoose}/>
         } else if( type == 6){
             
+
         }else {
             question = <div>sss</div>
         }
