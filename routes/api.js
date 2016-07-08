@@ -283,6 +283,7 @@ router.get('/quiz/saveAnswer', function (req,res,next) {
         paras.quiz_question_id = req.query.quiz_question_id;
         paras.answer = req.query.answer;
         paras.mark = req.query.mark;
+        paras.quiz_record_id = req.query.quiz_record_id;
 
         var url = base + "student/answer";
 
