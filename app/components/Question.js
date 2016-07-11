@@ -7,6 +7,7 @@ import util from '../util';
 import cookie from 'react-cookie';
 
 import True_False from './question_types/True_false';
+import Fill_Blank from './question_types/Fill_Blank';
 
 class Question extends Component {
 
@@ -18,6 +19,7 @@ class Question extends Component {
         this.handleSave = this.handleSave.bind(this);
         this.handleFinish = this.handleFinish.bind(this);
         this.handleChoose = this.handleChoose.bind(this);
+        this.handleInput = this.handleInput.bind(this);
         this.state = {
             questions: '',
 
@@ -56,7 +58,9 @@ class Question extends Component {
         var questions = this.state.questions;
         this.setState({
             current: i,
-            question: questions[i - 1]
+            question: questions[i - 1],
+            answer:'',
+            mark:0
         });
     }
 
@@ -91,7 +95,9 @@ class Question extends Component {
         }
         this.setState({
             current: next,
-            question: questions[next - 1]
+            question: questions[next - 1],
+            answer:'',
+            mark:0
         })
 
     }
@@ -105,7 +111,9 @@ class Question extends Component {
         }
         this.setState({
             current: previous,
-            question: questions[previous - 1]
+            question: questions[previous - 1],
+            answer:'',
+            mark:0
         })
     }
 
@@ -121,7 +129,7 @@ class Question extends Component {
             q.quiz_question_id = question.id;
             q.quiz_id = question.quiz_id;
             q.mark = this.state.mark;
-            q.answer = this.state.answer;
+            q.answer = JSON.stringify(this.state.answer);
             if(q.answer==null || q.answer.length==0){
                 alert("Please answer the question first!");
             }else {
@@ -134,7 +142,7 @@ class Question extends Component {
                     }
                 }
                 console.log("q:" + JSON.stringify(q));
-                console.log("answers:" + JSON.stringify(answers));
+                // console.log("answers:" + JSON.stringify(answers));
 
                 quiz.saveAnswer(self, q, function (rs) {
                     if (saved.indexOf(current) < 0) {
@@ -190,15 +198,69 @@ class Question extends Component {
         });
     }
 
+    handleInput(id,e){
+        // console.log("input id=" + id);
+        // console.log("input value=" + e.target.value);
+        var question = this.state.question; 
+        var right_answer = JSON.parse(question.answer);
+        var answer = this.state.answer.length==0?[]:this.state.answer;
+        var mark = 0;
+        console.log('answer='+JSON.stringify(answer));
+        var p = {};
+        p.id = id;
+        p.answer = e.target.value;
+        var flag = false;
+        for (var i=0; i<answer.length; i++){
+            if (answer[i].id==id){
+                console.log("find id=" + answer[i].id+" answer="+answer[i].answer);
+                answer[i].answer = e.target.value;
+                flag = true;
+            }
+            if (flag){
+                break;
+            }
+        }
+        if (!flag){
+            console.log("not find add a new");
+            answer.push(p);
+        }
+
+        flag = true;
+        for (var i=0; i<answer.length; i++){
+            for (var j=0; j<right_answer.length; j++){
+                console.log(answer[i].id+" "+right_answer[j].id);
+                console.log(answer[i].id==right_answer[j].id);
+                console.log(answer[i].answer+" "+right_answer[j].answer);
+                console.log(answer[i].answer!=right_answer[j].answer);
+                if(answer[i].id==right_answer[j].id && answer[i].answer!=right_answer[j].answer){
+                    flag = false;
+                    console.log(answer[i].id+' = '+answer[i].answer+" not the right one:"+right_answer[j].answer);
+                    break;// one blank is wrong
+                }
+            }
+        }
+        if(flag){//all right
+            mark = question.mark;
+        }
+        console.log('right answer:'+JSON.stringify(right_answer));
+        console.log('final answer:'+JSON.stringify(answer)+" and mark="+mark);
+        this.setState({
+            answer:answer,
+            mark:mark
+        })
+    }
+
 
     render() {
         var question, _question = this.state.question, type = _question.question_type_id;
         console.log('_question=' + JSON.stringify(_question));
-        if (type == 5) {
+        // console.log('question type='+type);
+        if ( type == 1){//fill blank
+            question = <Fill_Blank question={_question} handleInput={this.handleInput}/>
+        } else if (type == 5) {//true false
             question = <True_False question={_question} handleChoose={this.handleChoose}/>
         } else if (type == 6) {
-
-
+            question = <Fill_Blank question={_question} handleInput={this.handleInput}/>
         } else {
             question = <div>sss</div>
         }

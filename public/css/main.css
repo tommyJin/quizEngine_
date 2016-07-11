@@ -169,6 +169,18 @@ sub{ vertical-align:text-bottom;}
     margin-top: 20px;
 }
 
+.fill_blank {
+    width: 100%;
+}
+
+.blank_input span{
+    width: 10%;
+}
+
+.blank_input input{
+    width: 90%;
+}
+
 /* question end */
 
 /* feedback start */
