@@ -171,14 +171,29 @@ sub{ vertical-align:text-bottom;}
 
 .fill_blank {
     width: 100%;
+    margin: 2px auto 2px 2px;
 }
 
-.blank_input span{
+.fill_blank span{
     width: 10%;
 }
 
-.blank_input input{
+.fill_blank input{
     width: 90%;
+}
+
+.multiple_choice {
+    width: 100%;
+}
+
+.multiple_choice input{
+    width: 5%;
+    float: left;
+}
+
+.multiple_choice .choice_content {
+    width: 95%;
+    float: left;
 }
 
 /* question end */

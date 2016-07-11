@@ -3,25 +3,33 @@
  */
 import React, {Component} from 'react';
 
-class Fill_Blank extends Component{
-    constructor(props){
+class Fill_Blank extends Component {
+    constructor(props) {
         super(props);
-        this.state= {
-            blanks:[]
-        }
     }
 
-    render(){
+    render() {
         var question = this.props.question;
         var answer = JSON.parse(question.answer);
+        var pre_answer = $.isEmptyObject(this.props.answer)?[]:JSON.parse(this.props.answer.answer);
         var _this = this;
-        // console.log('there are '+answer.length+" blank(s)");
+        console.log('pre_answer=' + JSON.stringify(pre_answer));
 
-        var blanks = $.map(answer,function (o,index) {
-           return (<div key={index} className="blank_input"><span>{o.id}:</span><input type="text" className="form-control" onChange={_this.props.handleInput.bind(_this,o.id)} /></div>);
+        var blanks = $.map(answer, function (o, index) {
+            var blank = "";
+            for (var i = 0; i < pre_answer.length; i++) {
+                if (pre_answer[i].id == o.id) {
+                    blank = pre_answer[i].answer;
+                    break;
+                }
+            }
+            return (
+                <div key={question.id+"_"+o.id} className="fill_blank"><span>{o.id}:</span><input type="text" className="form-control" defaultValue={blank}
+                                                                                   onChange={_this.props.handleInput.bind(_this,o.id)}/>
+                </div>);
         });
-        return(
-            <div className="question fill_blank">
+        return (
+            <div>
                 {blanks}
             </div>
         )
