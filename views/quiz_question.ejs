@@ -40,5 +40,11 @@
 <script src="/static/nav.bundle.js"></script>
 <script src="/static/question.bundle.js"></script>
 
+<script>
+    $(window).bind('beforeunload', function(){
+        return 'Finish and save the answers before you leave.';
+    });
+</script>
+
 <% include layout/footer.ejs %>
 
