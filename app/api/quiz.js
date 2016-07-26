@@ -95,6 +95,23 @@ module.exports = {
         });
     },
 
+    over(q,cb){
+        var url = base.local_url+"api/quiz/finish";
+        console.log("finish quiz");
+        $.ajax({
+            url : url,
+            type:'GET',
+            data:q,
+            dataType:'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
+
     delete(q,cb){
         var url = base.local_url+"api/quiz/delete";
         console.log("delete quiz");

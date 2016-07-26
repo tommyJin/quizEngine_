@@ -175,7 +175,7 @@ class Question extends Component {
         var self = this;
         var q = {};
         q.quiz_id = cookie.load('quiz_id');
-        quiz.finish(self, q, function (rs) {
+        quiz.over(self, q, function (rs) {
             console.log("final mark=" + rs.data.mark);
             self.setState({
                 mark: rs.data.mark

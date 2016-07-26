@@ -250,7 +250,7 @@ router.get('/quiz/finish', function (req,res,next) {
         paras.token = user.token;
         var quiz_id = req.query.quiz_id;
 
-        var url = base + "student/finish?id="+paras.id+"&token="+paras.token+"&quiz_id="+quiz_id;
+        var url = base + "student/answer/finish?id="+paras.id+"&token="+paras.token+"&quiz_id="+quiz_id;
 
         request.get(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
