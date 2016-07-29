@@ -112,7 +112,7 @@ module.exports = {
         });
     },
 
-    delete(q,cb){
+    deleteQuiz(q,cb){
         var url = base.local_url+"api/quiz/delete";
         console.log("delete quiz");
         $.ajax({

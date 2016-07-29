@@ -4,6 +4,7 @@
 import React, {Component} from 'react';
 import quiz from '../api/quiz';
 import util from '../util';
+import cookie from 'react-cookie';
 
 class Quiz extends Component {
     constructor(props) {
@@ -39,8 +40,20 @@ class Quiz extends Component {
     handleDetail(id) {
         console.log('id in detail=' + id);
         cookie.save('quiz_id', id, {path: '/'});
-        util.goTo('view/quiz/get?id='+id);
+        util.goTo('view/quiz/get');
         return false;//prevent navigation to that link
+    }
+
+    handleDelete(id) {
+        console.log('id in delete=' + id);
+        var q= {};
+        q.quiz_id = id;
+        quiz.deleteQuiz(q,function (rs) {
+           alert("Delete Success!");
+            var row_id = "#row_"+id;
+            console.log("delete row_id="+row_id);
+            $(row_id).remove();
+        });
     }
 
     handleRetake(id){
@@ -48,14 +61,10 @@ class Quiz extends Component {
         var q = {};
         q.quiz_id = id;
         quiz.retake(q,function (rs) {
-            cookie.save('quiz_id', id, {path: '/'});
+            cookie.save('quiz_id', rs.data.id, {path: '/'});
             util.goTo('view/quiz/question');
             return false;//prevent navigation to that link
         });
-    }
-
-    handleKeyword(e) {
-        this.setState({keyword: e.target.value});
     }
 
     componentDidMount() {
@@ -113,15 +122,20 @@ class Quiz extends Component {
 
     render() {
         var _this = this, td = $.map(this.state.list, function (o, index) {
+            var row_id = "row_"+o.id;
+            console.log("id="+row_id);
             return (
-                <tr key={index}>
+                <tr key={index} id={row_id}>
                     <td className='center'> {o.id} </td>
                     <td className='center'>{o.name}</td>
                     <td className='center'> {o.category_name} </td>
                     <td className='center'> {o.level_name} </td>
                     <td className='center'>
-                        <button type='button' onClick={_this.handleDetail.bind(_this,o.id)} className='btn btn-danger'>
+                        <button type='button' onClick={_this.handleDetail.bind(_this,o.id)} className='btn btn-info'>
                             View
+                        </button>
+                        <button type='button' onClick={_this.handleDelete.bind(_this,o.id)} className='btn btn-danger'>
+                            Delete
                         </button>
                         <button type='button' onClick={_this.handleRetake.bind(_this,o.id)} className='btn btn-success'>
                             Retake
@@ -141,9 +155,7 @@ class Quiz extends Component {
                     </div>
                     <div className="col-sm-6">
                         <div id="dataTables-example_filter" className="dataTables_filter">
-                            <label>Keyword:<input type="search" id="keyword" onChange={this.handleKeyword}
-                                                  className="form-control input-sm"/></label>
-                            <button type="button" onClick={this.query} className="btn btn-default">Search</button>
+
                         </div>
                     </div>
                 </div>
