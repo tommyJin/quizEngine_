@@ -1,11 +1,11 @@
 /**
- * Created by tommy on 2016/6/19.
+ * Created by tommy on 2016/7/28.
  */
 import React, {Component} from 'react';
 import quiz from '../api/quiz';
 import util from '../util';
 
-class Quiz extends Component {
+class QuizOne extends Component {
     constructor(props) {
         super(props);
         this.query = this.query.bind(this);
@@ -29,39 +29,11 @@ class Quiz extends Component {
         };
     }
 
-    query(keyword, category_id, level_id, pageNumber) {
-        this.setState = {
-          pageNumber : pageNumber  
-        };
-        return false;//prevent navigation to that link
-    }
-
-    handleDetail(id) {
-        console.log('id in detail=' + id);
-        cookie.save('quiz_id', id, {path: '/'});
-        util.goTo('view/quiz/get?id='+id);
-        return false;//prevent navigation to that link
-    }
-
-    handleRetake(id){
-        console.log('id in retake=' + id);
-        var q = {};
-        q.quiz_id = id;
-        quiz.retake(q,function (rs) {
-            cookie.save('quiz_id', id, {path: '/'});
-            util.goTo('view/quiz/question');
-            return false;//prevent navigation to that link
-        });
-    }
-
-    handleKeyword(e) {
-        this.setState({keyword: e.target.value});
-    }
-
     componentDidMount() {
         console.log('componentDidMount');
+        var quiz_id = cookie.load('quiz_id');
         var self = this;
-        quiz.quizzes(self, function (rs) {
+        quiz.getQuestions(self, function (rs) {
             var data = rs.data;
             var list = data.list;
             var pageNumber = data.pageNumber;
@@ -104,7 +76,7 @@ class Quiz extends Component {
             result.push(
                 <li  key={i} className={'paginate_button ' +i==this.state.pageNumber?' active':'' }>
                     <button type="button" className={  i === this.state.current ? ' current btn btn-primary' : ' btn btn-primary'}
-                       onClick={this.query.bind(this,this.state.keyword,this.state.category_id,this.state.level_id,i)}
+                            onClick={this.query.bind(this,this.state.keyword,this.state.category_id,this.state.level_id,i)}
                     >{i}</button></li>
             );
         }
@@ -122,9 +94,6 @@ class Quiz extends Component {
                     <td className='center'>
                         <button type='button' onClick={_this.handleDetail.bind(_this,o.id)} className='btn btn-danger'>
                             View
-                        </button>
-                        <button type='button' onClick={_this.handleRetake.bind(_this,o.id)} className='btn btn-success'>
-                            Retake
                         </button>
                     </td>
                 </tr>);
@@ -173,7 +142,7 @@ class Quiz extends Component {
                                 <ul className='pagination'>
                                     <li className={'paginate_button previous ' +this.state.firstPage?' disabled':'' }>
                                         <a type="button" href="" onClick={this.query.bind(this,this.state.keyword,this.state.category_id,this.state.level_id, this.state.pageNumber-1>0?(this.state.pageNumber-1):1)}>
-                                        Previous</a>
+                                            Previous</a>
                                     </li>
                                     {this.pageNumbers()}
                                     <li  className={'paginate_button next ' +this.state.lastPage?' disabled':'' }>
@@ -191,4 +160,4 @@ class Quiz extends Component {
 }
 
 
-export default Quiz
+export default QuizOne

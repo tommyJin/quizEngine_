@@ -176,10 +176,13 @@ class Question extends Component {
         var q = {};
         q.quiz_id = cookie.load('quiz_id');
         quiz.over(self, q, function (rs) {
-            console.log("final mark=" + rs.data.mark);
+            console.log("Your final mark=" + rs.data.mark);
+            alert("Quiz finished.");
             self.setState({
                 mark: rs.data.mark
-            })
+            });
+            util.goTo('view/quiz/get');
+            return false;//prevent navigation to that link
         })
     }
 
@@ -258,57 +261,76 @@ class Question extends Component {
         console.log("choice checked=" + e.target.checked);
         var question = this.state.question;
         var right_answer = JSON.parse(question.answer);
+        console.log("right_answer detail:"+JSON.stringify(right_answer));
         var answer = this.state.answer.length==0?[]:this.state.answer;
-        var mark = 0;
-
-        if(right_answer.length>0 && right_answer[0].number==1){// 1 right answer
-            answer = [];
-            var p = {};
-            p.id = id;
-            p.checked = e.target.checked;
-            answer.push(p);
-            for (var i=0; i<right_answer.length; i++){
-                if( right_answer[i].id==id && right_answer[i].isRight ){
-                    mark = question.mark;
-                    break;
-                }
-            }
-        }else {//more than 1 right answer
-            var p = {};
-            p.id = id;
-            p.checked = e.target.checked;
-
-            var flag = true;
-            for (var i=0;i<answer.length; i++){
-                if (answer[i].id==id){
-                    answer[i].checked = e.target.checked;
-                    flag = false;
-                    break;
-                }
-            }
-            if(flag){
+        var p;
+        if (answer.length==0){//first time click
+            for (var i=0;i<right_answer.length;i++){
+                p = {};
+                p.id = right_answer[i].id;
+                p.checked = false;
                 answer.push(p);
             }
+        }
 
-            flag = true;
-            for (var i=0; i<answer.length; i++){
-                for (var j=0; j<right_answer.length; j++){
-                    if(answer[i].id==right_answer[j].id && answer[i].checked && !right_answer[j].isRight){
-                        flag = false;
-                        break;// one blank is wrong
+        console.log("student answer detail:"+JSON.stringify(answer));
+        var mark = 0;
+
+        if(right_answer.length>0){//right answer exists
+            if(right_answer[0].number==1){// 1 right answer
+                answer = [];
+                p = {};
+                p.id = id;
+                p.checked = e.target.checked;
+                answer.push(p);
+                for (i=0; i<right_answer.length; i++){
+                    if( right_answer[i].id==id && right_answer[i].isRight ){
+                        mark = question.mark;
+                        break;
                     }
                 }
+            }else {//more than 1 right answer
+                p = {};
+                p.id = id;
+                p.checked = e.target.checked;
+
+                var flag = true;
+                for ( i=0;i<answer.length; i++){
+                    if (answer[i].id==id){
+                        answer[i].checked = e.target.checked;
+                        flag = false;
+                        break;
+                    }
+                }
+                if(flag){
+                    answer.push(p);
+                }
+
+                flag = true;
+                for (i=0; i<answer.length; i++){
+                    for (var j=0; j<right_answer.length; j++){
+                        if(answer[i].id==right_answer[j].id && !(answer[i].checked == right_answer[j].isRight ) ){
+                            console.log(answer[i].id+" = "+answer[i].checked +" but right answer is = "+right_answer[j].isRight);
+                            flag = false;
+                            break;// one choice is wrong
+                        }
+                    }
+                }
+                if(flag){//all right
+                    mark = question.mark;
+                }else {
+                    mark = 0;
+                }
             }
-            if(flag){//all right
-                mark = question.mark;
-            }
+            console.log('final answer:'+JSON.stringify(answer));
+            console.log('final mark:'+mark);
+            this.setState({
+                answer:answer,
+                mark:mark
+            })
+        }else {
+            console.log("right answer issue");
         }
-        console.log('answer:'+JSON.stringify(answer));
-        console.log('mark:'+mark);
-        this.setState({
-            answer:answer,
-            mark:mark
-        })
     }
 
 

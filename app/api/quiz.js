@@ -95,9 +95,9 @@ module.exports = {
         });
     },
 
-    over(q,cb){
+    over(p,q,cb){
         var url = base.local_url+"api/quiz/finish";
-        console.log("finish quiz");
+        console.log("finish quiz  id="+JSON.stringify(q));
         $.ajax({
             url : url,
             type:'GET',
@@ -115,6 +115,23 @@ module.exports = {
     delete(q,cb){
         var url = base.local_url+"api/quiz/delete";
         console.log("delete quiz");
+        $.ajax({
+            url : url,
+            type:'GET',
+            data:q,
+            dataType:'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
+
+    retake(q,cb){
+        var url = base.local_url+"api/quiz/retake";
+        console.log("retake quiz");
         $.ajax({
             url : url,
             type:'GET',
