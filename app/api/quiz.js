@@ -4,6 +4,25 @@
 import base from '../base';
 
 module.exports = {
+
+    getQuiz(p,q,cb){
+        var url = base.local_url+"api/quiz/get";
+        // console.log("generate a new quiz");
+        $.ajax({
+            url : url,
+            type:'GET',
+            data:q,
+            dataType:'JSON',
+            success(rs){
+                console.log("quiz="+rs);
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
+
     quizzes(q,cb){
         var url = base.local_url+"api/quiz";
         // console.log("get all quizzes, q="+q);
@@ -47,6 +66,22 @@ module.exports = {
 
     getQuestions(p,q,cb){
         var url = base.local_url+"api/quiz/question";
+        $.ajax({
+            url : url,
+            type:'GET',
+            data:q,
+            dataType:'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
+
+    getRecords(p,q,cb){
+        var url = base.local_url+"api/quiz/record";
         $.ajax({
             url : url,
             type:'GET',

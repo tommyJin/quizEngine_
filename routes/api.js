@@ -189,9 +189,39 @@ router.get('/quiz/get', function (req,res,next) {
         var paras = {};
         paras.id = user.id;
         paras.token = user.token;
-        var quiz_id = req.query.id;
+        paras.quiz_id = req.query.quiz_id;
 
-        var url = base + "student/quiz/get?&quiz_id="+quiz_id+"&id="+paras.id+"&token="+paras.token;
+        var url = base + "student/quiz/get?&quiz_id="+paras.quiz_id+"&id="+paras.id+"&token="+paras.token;
+        request.get(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                // console.log(body);
+                var parsed = JSON.parse(body);
+                console.log("status:" + parsed.status);
+                console.log("data:" + parsed.data);
+                res.json(parsed);
+            }else {
+                data.errormsg = "Something unknown happened!";
+                data.status = 400;
+                res.json(data);
+            }
+        });
+    }else {
+        data.errormsg = "Please login first!";
+        data.status = 400;
+        res.json(data);
+    }
+});
+
+router.get('/quiz/record', function (req,res,next) {
+    var user = req.session.user;
+    var data = {};
+    if(user){
+        var paras = {};
+        paras.id = user.id;
+        paras.token = user.token;
+        paras.quiz_id = req.query.quiz_id;
+
+        var url = base + "student/quiz/record?&quiz_id="+paras.quiz_id+"&id="+paras.id+"&token="+paras.token;
         request.get(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 // console.log(body);

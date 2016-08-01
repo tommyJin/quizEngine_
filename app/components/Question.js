@@ -186,8 +186,8 @@ class Question extends Component {
         })
     }
 
-    innerHtml() {
-        return {__html: this.state.question.content};
+    innerHtml(content) {
+        return {__html: content};
     }
 
     handleChoose(value) {
@@ -362,7 +362,7 @@ class Question extends Component {
         } else if (type == 6) {
             question = <Fill_Blank question={_question} answer={answer} handleInput={this.handleInput}/>
         } else {
-            question = <div>sss</div>
+            question = <div></div>
         }
 
         return (
@@ -378,7 +378,7 @@ class Question extends Component {
                 <br className="clear"/>
                 <hr/>
                 <div className="question_content">
-                    <div dangerouslySetInnerHTML={this.innerHtml()}/>
+                    <div dangerouslySetInnerHTML={this.innerHtml(this.state.question.content)}/>
                 </div>
 
                 <div className="question_answer">
@@ -386,7 +386,7 @@ class Question extends Component {
                 </div>
 
                 <div className="feedback_general">
-                    {this.state.question.feedback}
+                    <div dangerouslySetInnerHTML={this.innerHtml(this.state.question.feedback)}/>
                 </div>
 
                 <div className="question_submit_button">

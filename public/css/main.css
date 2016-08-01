@@ -214,6 +214,80 @@ sub{ vertical-align:text-bottom;}
 
 /* feedback end */
 
+/* content color */
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
+.grey {
+    background-color: #f5f5ff;
+}
+
+.dark {
+    background-color: #e2e7ea;
+}
+/*  */
+
+/* quiz question detail */
+.quiz_one {
+    width: 100%;
+    padding: 0 10% 0 10%;
+}
+
+.quiz_one_header {
+    width: 100%;
+}
+
+.quiz_one_header span {
+    width: 20%;
+    float: left;
+}
+
+.quiz_one_questions {
+    width: 100%;
+}
+
+.quiz_one_question {
+    width: 100%;
+    margin: 10px 0 10px 0;
+}
+
+.quiz_one_question_index {
+    width: 5%;
+    float: left;
+    text-align: left;
+}
+
+.quiz_one_question_content {
+    width: 95%;
+    float: left;
+}
+
+.question_metadata {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.question_metadata span{
+    width: 33.333333333%;
+    float: left;
+}
+
+.quiz_one_question_title {
+    min-height: 40px;
+    width: 100%;
+    text-align: left;
+}
+
+.quiz_one_question_right_answer {
+    text-align: left;
+}
+
+
 /* common use */
 .clear {
     clear: both;

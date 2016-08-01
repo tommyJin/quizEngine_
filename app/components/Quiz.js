@@ -10,8 +10,10 @@ class Quiz extends Component {
     constructor(props) {
         super(props);
         this.query = this.query.bind(this);
-        this.handleKeyword = this.handleKeyword.bind(this);
         this.handleDetail = this.handleDetail.bind(this);
+        this.handleRetake = this.handleRetake.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleContinue = this.handleContinue.bind(this);
         this.pageNumbers = this.pageNumbers.bind(this);
         this.state = {
             keyword: '',
@@ -44,8 +46,15 @@ class Quiz extends Component {
         return false;//prevent navigation to that link
     }
 
+    handleContinue(id) {
+        console.log('id in continue=' + id);
+        cookie.save('quiz_id', id, {path: '/'});
+        util.goTo('view/quiz/question');
+        return false;//prevent navigation to that link
+    }
+
     handleDelete(id) {
-        console.log('id in delete=' + id);
+        // console.log('id in delete=' + id);
         var q= {};
         q.quiz_id = id;
         quiz.deleteQuiz(q,function (rs) {
@@ -57,7 +66,7 @@ class Quiz extends Component {
     }
 
     handleRetake(id){
-        console.log('id in retake=' + id);
+        // console.log('id in retake=' + id);
         var q = {};
         q.quiz_id = id;
         quiz.retake(q,function (rs) {
@@ -123,17 +132,24 @@ class Quiz extends Component {
     render() {
         var _this = this, td = $.map(this.state.list, function (o, index) {
             var row_id = "row_"+o.id;
-            console.log("id="+row_id);
+            var viewOrContinue;
+            var state;
+            if (o.mark ==null){
+                viewOrContinue = <button type='button' onClick={_this.handleContinue.bind(_this,o.id)} className='btn btn-info'>GoOn</button>;
+                state = <span className="red">Not finished</span>;
+            }else{
+                viewOrContinue =   <button type='button' onClick={_this.handleDetail.bind(_this,o.id)} className='btn btn-primary'>View</button>
+                state = <span className="green">Finished</span>;
+            }
+            var level_name = o.level_name==null?"All levels":o.level_name;
             return (
                 <tr key={index} id={row_id}>
                     <td className='center'> {o.id} </td>
-                    <td className='center'>{o.name}</td>
                     <td className='center'> {o.category_name} </td>
-                    <td className='center'> {o.level_name} </td>
+                    <td className='center'> {level_name} </td>
+                    <td className='center'> {state} </td>
                     <td className='center'>
-                        <button type='button' onClick={_this.handleDetail.bind(_this,o.id)} className='btn btn-info'>
-                            View
-                        </button>
+                        {viewOrContinue}
                         <button type='button' onClick={_this.handleDelete.bind(_this,o.id)} className='btn btn-danger'>
                             Delete
                         </button>
@@ -164,11 +180,11 @@ class Quiz extends Component {
                         <table className="table table-striped table-bordered table-hover dataTable no-footer">
                             <thead>
                             <tr>
-                                <th style={{width: '20%'}}>ID</th>
-                                <th style={{width: '20%'}}>Name</th>
+                                <th style={{width: '10%'}}>ID</th>
+                                <th style={{width: '20%'}}>Module</th>
                                 <th style={{width: '20%'}}>Level</th>
-                                <th style={{width: '20%'}}>Category</th>
-                                <th style={{width: '20%'}}>Actions</th>
+                                <th style={{width: '20%'}}>State</th>
+                                <th style={{width: '30%'}}>Actions</th>
                             </tr>
                             </thead>
                             <tbody id="list">
