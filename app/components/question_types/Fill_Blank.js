@@ -16,11 +16,18 @@ class Fill_Blank extends Component {
         var question = this.props.question;
         var answer = JSON.parse(question.answer);
         var showanswer = this.props.showanswer;
-        var pre_answer = $.isEmptyObject(this.props.answer)?[]:JSON.parse(this.props.answer.answer);
+        var pre_answer = $.isEmptyObject(this.props.answer)?[]:this.props.answer.answer;
+
+        if (this.props.answer.answer instanceof Array){
+            pre_answer = this.props.answer.answer;
+        } else if (typeof this.props.answer.answer === 'string'){
+            pre_answer = JSON.parse(this.props.answer.answer);
+        }
+
         var _this = this;
         var general_feedback = this.props.general_feedback;
-        console.log('pre_answer=' + JSON.stringify(pre_answer));
-        console.log("showanswer = "+showanswer);
+        // console.log('pre_answer=' + JSON.stringify(pre_answer));
+        // console.log("showanswer = "+showanswer);
 
         var blanks = $.map(answer, function (o, index) {
             var blank = "";

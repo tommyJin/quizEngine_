@@ -27,7 +27,7 @@ class Question extends Component {
 
             question: '',
             answers:[],
-            answer: '',
+            answer: [],
             mark: '',
 
             showanswer:2,
@@ -69,10 +69,18 @@ class Question extends Component {
     handleIndex(i) {
         // console.log('change index to '+i);
         var questions = this.state.questions;
+        var answers = this.state.answers;
+        var answer = {};
+        for (var j=0; j<answers.length; j++){
+            if (answers[j].quiz_question_id == questions[i-1].quiz_question_id){
+                answer = answers[j].answer;
+                break;
+            }
+        }
         this.setState({
             current: i,
             question: questions[i - 1],
-            answer:'',
+            answer:answer,
             mark:0
         });
     }
@@ -209,7 +217,7 @@ class Question extends Component {
     }
 
     handleChoose(value) {
-        // console.log("choose " + value);
+        console.log("choose " + value);
         var question = this.state.question;
         var right_answer = ''+JSON.parse(question.answer).right+'';
         var mark = 0;
@@ -227,9 +235,17 @@ class Question extends Component {
         // console.log("input value=" + e.target.value);
         var question = this.state.question; 
         var right_answer = JSON.parse(question.answer);
-        var answer = this.state.answer.length==0?[]:this.state.answer;
+        var answers = this.state.answers;
+        // console.log('answer in input ='+JSON.stringify(this.state.answer));
+        var answer;
+        if (this.state.answer instanceof Array){
+            answer = this.state.answer;
+        } else if (typeof this.state.answer === 'string'){
+            answer = JSON.parse(this.state.answer);
+        }
+        // console.log('answer after ='+JSON.stringify(answer));
+
         var mark = 0;
-        // console.log('answer='+JSON.stringify(answer));
         var p = {};
         p.id = id;
         p.answer = e.target.value;
@@ -268,7 +284,16 @@ class Question extends Component {
         }
         // console.log('right answer:'+JSON.stringify(right_answer));
         // console.log('final answer:'+JSON.stringify(answer)+" and mark="+mark);
+
+        for (var i=0; i<answers.length; i++){
+            if (answers[i].quiz_question_id == question.quiz_question_id){
+                answers[i].answer = answer ;
+                break;
+            }
+        }
+        // console.log("final answers:"+JSON.stringify(answers));
         this.setState({
+            answers:answers,
             answer:answer,
             mark:mark
         })

@@ -5,16 +5,16 @@ import base from '../base';
 
 module.exports = {
 
-    getQuiz(p,q,cb){
-        var url = base.local_url+"api/quiz/get";
+    getQuiz(p, q, cb){
+        var url = base.local_url + "api/quiz/get";
         // console.log("generate a new quiz");
         $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
             success(rs){
-                console.log("quiz="+rs);
+                console.log("quiz=" + rs);
                 cb(rs);
             },
             error(){
@@ -23,19 +23,18 @@ module.exports = {
         });
     },
 
-    quizzes(p,q,cb){
-        var url = base.local_url+"api/quiz";
+    quizzes(p, q, cb){
+        var url = base.local_url + "api/quiz";
         // console.log("get all quizzes, q="+q);
-        if(q.category_id==null && q.level_id==null)
-        {
+        if (q.category_id == null && q.level_id == null) {
             q = {};
             q.page = 1;
         }
         $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
             success(rs){
                 // console.log("quizzes="+rs);
                 cb(rs);
@@ -44,19 +43,19 @@ module.exports = {
                 alert("ajax error");
             }
         });
-        
+
     },
-    
-    addQuiz(p,q,cb){
-        var url = base.local_url+"api/quiz/add";
+
+    addQuiz(p, q, cb){
+        var url = base.local_url + "api/quiz/add";
         // console.log("generate a new quiz");
         $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
             success(rs){
-                console.log("quiz="+rs);
+                console.log("quiz=" + rs);
                 cb(rs);
             },
             error(){
@@ -65,45 +64,13 @@ module.exports = {
         });
     },
 
-    getQuestions(p,q,cb){
-        var url = base.local_url+"api/quiz/question";
+    getQuestions(p, q, cb){
+        var url = base.local_url + "api/quiz/question";
         $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
-            success(rs){
-                cb(rs);
-            },
-            error(){
-                alert("ajax error");
-            }
-        });
-    },
-
-    getRecords(p,q,cb){
-        var url = base.local_url+"api/quiz/record";
-        $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
-            success(rs){
-                cb(rs);
-            },
-            error(){
-                alert("ajax error");
-            }
-        });
-    },
-    
-    saveAnswer(p,q,cb){
-        var url = base.local_url+"api/quiz/saveAnswer";
-        $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
             success(rs){
                 cb(rs);
             },
@@ -113,16 +80,65 @@ module.exports = {
         });
     },
 
-    maxSize(p,q,cb){
-        var url = base.local_url+"api/quiz/question/maxSize";
+
+    getRecord(p, q, cb){
+        var url = base.local_url + "api/quiz/oneRecord";
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
+
+    getRecords(p, q, cb){
+        var url = base.local_url + "api/quiz/record";
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
+
+    saveAnswer(p, q, cb){
+        var url = base.local_url + "api/quiz/saveAnswer";
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
+    },
+
+    maxSize(p, q, cb){
+        var url = base.local_url + "api/quiz/question/maxSize";
         console.log("get max size");
         $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
             success(rs){
-                console.log("quiz="+rs);
+                console.log("quiz=" + rs);
                 cb(rs);
             },
             error(){
@@ -131,14 +147,14 @@ module.exports = {
         });
     },
 
-    over(p,q,cb){
-        var url = base.local_url+"api/quiz/finish";
-        console.log("finish quiz  id="+JSON.stringify(q));
+    over(p, q, cb){
+        var url = base.local_url + "api/quiz/finish";
+        console.log("finish quiz  id=" + JSON.stringify(q));
         $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
             success(rs){
                 cb(rs);
             },
@@ -148,14 +164,14 @@ module.exports = {
         });
     },
 
-    deleteQuiz(q,cb){
-        var url = base.local_url+"api/quiz/delete";
+    deleteQuiz(q, cb){
+        var url = base.local_url + "api/quiz/delete";
         console.log("delete quiz");
         $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
             success(rs){
                 cb(rs);
             },
@@ -165,14 +181,14 @@ module.exports = {
         });
     },
 
-    retake(q,cb){
-        var url = base.local_url+"api/quiz/retake";
+    retake(q, cb){
+        var url = base.local_url + "api/quiz/retake";
         console.log("retake quiz");
         $.ajax({
-            url : url,
-            type:'GET',
-            data:q,
-            dataType:'JSON',
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
             success(rs){
                 cb(rs);
             },
