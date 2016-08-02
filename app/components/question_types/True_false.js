@@ -20,7 +20,29 @@ class True_false extends Component{
         var question = this.props.question;
         var answer = JSON.parse(question.answer);
         var pre_answer = this.props.answer;
-        // console.log('pre_answer='+JSON.stringify(pre_answer));
+        var pre_ans = pre_answer.answer;
+        console.log('pre_answer='+pre_answer);
+        console.log('pre_answer answer='+pre_answer.answer);
+
+        if (typeof pre_ans === 'boolean'){
+            if (pre_ans){
+                pre_ans = "true";
+            }else {
+                pre_ans = "false";
+            }
+        }else if (typeof pre_ans === 'object'){
+            if (pre_ans){
+                pre_ans = "true";
+            }else {
+                pre_ans = "false";
+            }
+        }
+
+
+        console.log("1 true checked="+ (pre_ans=="true" ));
+        console.log("2 true checked="+ (pre_ans==="true" ));
+        console.log("1 false checked="+ (pre_ans=="false" ));
+        console.log("2 false checked="+ (pre_ans==="false" ));
         var showanswer = this.props.showanswer;
         if (showanswer==2){
             showanswer = pre_answer.answer!=null?4:2;
@@ -32,7 +54,7 @@ class True_false extends Component{
             <div key={key} className="question true_false">
                 <div className="radio">
                     <label>
-                        <input type="radio" name="true_false" value="true" defaultChecked={pre_answer.answer=="true"?"checked":""} onClick={this.props.handleChoose.bind(this,true)}/>{answer.true_content}
+                        <input type="radio" name="true_false" value="true" defaultChecked={pre_ans=="true"?"checked":""} onClick={this.props.handleChoose.bind(this,true)}/>{answer.true_content}
                     </label>
                 </div>
                 <div className={showanswer==4?"block":"hidden"}>
@@ -40,7 +62,7 @@ class True_false extends Component{
                 </div>
                 <div className="radio">
                     <label>
-                        <input type="radio" name="true_false" value="false" defaultChecked={pre_answer.answer=="false"?"checked":""} onClick={this.props.handleChoose.bind(this,false)}/>{answer.false_content}
+                        <input type="radio" name="true_false" value="false" defaultChecked={pre_ans=="false"?"checked":""} onClick={this.props.handleChoose.bind(this,false)}/>{answer.false_content}
                     </label>
                 </div>
                 <div className={showanswer==4?"block":"hidden"}>

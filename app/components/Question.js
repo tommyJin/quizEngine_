@@ -224,8 +224,21 @@ class Question extends Component {
         if ( right_answer === (''+value+'') ) {
             mark = question.mark;
         }
+        var answer = value;
+        var answers = this.state.answers;
+        console.log("answers in choose=" + answers);
+        for (var i=0; i<answers.length; i++){
+            if (answers[i].quiz_question_id == question.quiz_question_id){
+                answers[i].answer = answer ;
+                break;
+            }
+        }
+        // console.log("final answer in choose=" + JSON.parse(answer));
+        // console.log("final answers in choose=" + JSON.parse(answers));
+
         this.setState({
-            answer: value,
+            answers:answers,
+            answer: answer,
             mark: mark
         });
     }
