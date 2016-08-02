@@ -16,6 +16,8 @@ class QuizOne extends Component {
             total_mark: '',
             mark: '',
 
+            showanswer:3,
+
             quiz: '',
             questions: [],
             list: ''
@@ -43,7 +45,8 @@ class QuizOne extends Component {
                 level_name: data.level_name == null ? "All levels" : data.level_name,
                 user_name: data.user_name,
                 total_mark: data.total_mark,
-                mark: data.mark
+                mark: data.mark,
+                showanswer:data.showanswer
             });
         });
 
@@ -75,7 +78,7 @@ class QuizOne extends Component {
                                     <span>{j.id}: {j.answer}</span>
                                 </div>
                                 <div className="question_feedback">
-                                    <div dangerouslySetInnerHTML={self.innerHtml("Individual feedback: "+j.feedback)}/>
+                                    <div className={self.state.showanswer==1?"hidden":"block"} dangerouslySetInnerHTML={self.innerHtml("Individual feedback: "+j.feedback)}/>
                                 </div>
                             </div>
                         );
@@ -102,7 +105,7 @@ class QuizOne extends Component {
                                     <span className={color}> <div dangerouslySetInnerHTML={self.innerHtml(indexes[index]+". "+j.choice)}/></span>
                                 </div>
                                 <div className="question_feedback">
-                                    <div dangerouslySetInnerHTML={self.innerHtml("Individual feedback: "+j.feedback)}/>
+                                    <div className={self.state.showanswer==1?"hidden":"block"}  dangerouslySetInnerHTML={self.innerHtml("Individual feedback: "+j.feedback)}/>
                                 </div>
                             </div>
                         );
@@ -130,13 +133,13 @@ class QuizOne extends Component {
                                 Agree.{right_answer.true_content}
                             </p>
                             <p>
-                                <div dangerouslySetInnerHTML={self.innerHtml("Individual feedback: "+right_answer.feedback_true)}/>
+                                <div className={self.state.showanswer==1?"hidden":"block"} dangerouslySetInnerHTML={self.innerHtml("Individual feedback: "+right_answer.feedback_true)}/>
                             </p>
                             <p className={false_color}>
                                 Disagree. {right_answer.false_content}
                             </p>
                             <p>
-                                <div dangerouslySetInnerHTML={self.innerHtml("Individual feedback: "+right_answer.feedback_false)}/>
+                                <div className={self.state.showanswer==1?"hidden":"block"} dangerouslySetInnerHTML={self.innerHtml("Individual feedback: "+right_answer.feedback_false)}/>
                             </p>
                         </div>
                     );
@@ -169,7 +172,7 @@ class QuizOne extends Component {
                                 </p>
                                 <div className="clear"/>
                                 <p className="question_metadata">
-                                    <div dangerouslySetInnerHTML={self.innerHtml("General Feedback:"+o.general_feedback)}/>
+                                    <div className={self.state.showanswer==1?"hidden":"block"} dangerouslySetInnerHTML={self.innerHtml("General Feedback:"+o.general_feedback)}/>
                                 </p>
                                 <div className="clear"/>
                             </div>

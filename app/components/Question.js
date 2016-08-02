@@ -321,7 +321,9 @@ class Question extends Component {
         var right_answer = JSON.parse(question.answer);
         // console.log("right_answer detail:"+JSON.stringify(right_answer));
         var answer;
-        if ( this.state.answer instanceof Array){
+        if ($.isEmptyObject(this.state.answer)){
+            answer = [];
+        } else if ( this.state.answer instanceof Array){
             answer = this.state.answer;
         }else if ( typeof this.state.answer === 'string' ){
             answer = JSON.parse(this.state.answer);
