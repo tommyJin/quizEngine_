@@ -28,8 +28,9 @@ module.exports = {
         // console.log("get all quizzes, q="+q);
         if(q.category_id==null && q.level_id==null)
         {
-            q = null;    
-        }   
+            q = {};
+            q.page = 1;
+        }
         $.ajax({
             url : url,
             type:'GET',

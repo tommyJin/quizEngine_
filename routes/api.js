@@ -107,7 +107,8 @@ router.get('/quiz',function (req,res,next) {
         paras.token = user.token;
         paras.level_id = req.query.level_id;
         paras.category_id = req.query.category_id;
-
+        paras.page = req.query.page;
+        paras.size = 20;//default
 
         var url = base + "student/quiz";
         

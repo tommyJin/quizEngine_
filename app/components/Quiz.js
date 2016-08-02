@@ -26,12 +26,11 @@ class Quiz extends Component {
             levels: '',
 
             keyword: '',
-            category_id: '',
-            level_id: '',
 
             td: '',
             pager: '',
             list: '',
+            currentPage:1,
             pageSize: '',
             totalPage: '',
             totalRow: '',
@@ -42,7 +41,12 @@ class Quiz extends Component {
     }
 
     queryQuiz(category_id, level_id, pageNumber) {
+        console.log("query quiz");
+        console.log("category_id="+category_id);
+        console.log("level_id="+level_id);
+        console.log("pageNumber="+pageNumber);
         var q = {};
+        q.page = pageNumber;
         var self = this;
         if (category_id != 0) {
             q.category_id = category_id;
@@ -60,25 +64,9 @@ class Quiz extends Component {
             var firstPage = data.firstPage;
             var lastPage = data.lastPage;
 
-            var td = $.map(list, function (o) {
-                return (
-                    <tr role='row'>
-                        <td className='center'> {o.id} </td>
-                        <td className='center'><a target='_blank'
-                                                  href='admin/route/hall_detail?id=" + o.id + "'> {o.name} </a></td>
-                        <td className='center'> {o.category_name} </td>
-                        <td className='center'> {o.level_name} </td>
-                        <td className='center'>
-                            <button type='button' className='btn btn-danger'>delete</button>
-                        </td>
-                    </tr>
-                )
-            });
             self.setState({
-                td: td,
                 list: list,
-                pageNumber: pageNumber,
-
+                currentPage:pageNumber,
                 pageSize: pageSize,
                 totalPage: totalPage,
                 totalRow: totalRow,
@@ -131,6 +119,7 @@ class Quiz extends Component {
         console.log('componentDidMount');
         var self = this;
         var q = {};
+        q.page = 1;
         quiz.quizzes(self, q, function (rs) {
             var data = rs.data;
             var list = data.list;
@@ -155,11 +144,28 @@ class Quiz extends Component {
                     </tr>
                 )
             });
+
+            var pager = [];
+            for (var i = 1; i <= totalPage; i++) {
+                pager.push(
+                    <li key={i} className={'paginate_button ' + i == pageNumber ? ' active' : '' }>
+                        <button type="button"
+                                className={  i === q.page ? ' current btn btn-primary' : ' btn btn-primary'}
+                                onClick={self.queryQuiz.bind(self, 0, 0, i)}
+                        >{i}</button>
+                    </li>
+                );
+            }
+
             self.setState({
                 category_id: 0,
                 level_id: 0,
                 td: td,
                 list: list,
+
+                pager:pager,
+
+                currentPage:1,
                 pageSize: pageSize,
                 totalPage: totalPage,
                 totalRow: totalRow,
@@ -212,109 +218,87 @@ class Quiz extends Component {
     }
 
     handleCategories(e) {
-        console.log("handleCategories start value=" + e.target.value);
-        var self = this;
+        var category_id = e.target.value;
+        console.log("handleCategories start value=" + category_id+" and level_id="+this.state.level_id);
         var q = {};
-        if (e.target.value != 0) {
-            q.category_id = e.target.value;
+        q.page = 1;
+        if (category_id != 0) {
+            q.category_id = category_id;
         }
         if (this.state.level_id != 0) {
             q.level_id = this.state.level_id;
         }
+
+        var self = this;
         quiz.quizzes(self, q, function (rs) {
             var data = rs.data;
-            var list = data.list;
-            var pageNumber = data.pageNumber;
-            var pageSize = data.pageSize;
-            var totalPage = data.totalPage;
-            var totalRow = data.totalRow;
-            var firstPage = data.firstPage;
-            var lastPage = data.lastPage;
-
-            var td = $.map(list, function (o) {
-                return (
-                    <tr role='row'>
-                        <td className='center'> {o.id} </td>
-                        <td className='center'><a target='_blank'
-                                                  href='admin/route/hall_detail?id=" + o.id + "'> {o.name} </a></td>
-                        <td className='center'> {o.category_name} </td>
-                        <td className='center'> {o.level_name} </td>
-                        <td className='center'>
-                            <button type='button' className='btn btn-danger'>delete</button>
-                        </td>
-                    </tr>
-                )
-            });
+            var pager = [];
+            for (var i = 1; i <= data.totalPage; i++) {
+                pager.push(
+                    <li key={i} className={'paginate_button ' + i == data.pageNumber ? ' active' : '' }>
+                        <button type="button"
+                                className={  i === 1 ? ' current btn btn-primary' : ' btn btn-primary'}
+                                onClick={self.queryQuiz.bind(self, category_id, self.state.level_id, i)}
+                        >{i}</button>
+                    </li>
+                );
+            }
             self.setState({
-                category_id: 0,
-                level_id: 0,
-                td: td,
-                list: list,
-                pageSize: pageSize,
-                totalPage: totalPage,
-                totalRow: totalRow,
-                firstPage: firstPage,
-                pageNumber: pageNumber,
-                lastPage: lastPage
+                pager:pager,
+                list: data.list,
+                pageSize: data.pageSize,
+                totalPage: data.totalPage,
+                totalRow: data.totalRow,
+                firstPage: data.firstPage,
+                pageNumber: data.pageNumber,
+                lastPage: data.lastPage
             });
         });
 
-
         self.setState({
-            category_id: e.target.value
+            category_id: category_id
         });
     }
 
     handleLevels(e) {
-        console.log("handleLevels start value=" + e.target.value);
-        var self = this;
+        var level_id = e.target.value;
+        console.log("handleLevels start value=" + level_id+" and category_id="+this.state.category_id);
         var q = {};
+        q.page = 1;
         if (this.state.category_id != 0) {
             q.category_id = this.state.category_id;
         }
-        if (e.target.value != 0) {
-            q.level_id = e.target.value;
+        if (level_id != 0) {
+            q.level_id = level_id;
         }
+        var self = this;
         quiz.quizzes(self, q, function (rs) {
             var data = rs.data;
-            var list = data.list;
-            var pageNumber = data.pageNumber;
-            var pageSize = data.pageSize;
-            var totalPage = data.totalPage;
-            var totalRow = data.totalRow;
-            var firstPage = data.firstPage;
-            var lastPage = data.lastPage;
-
-            var td = $.map(list, function (o) {
-                return (
-                    <tr role='row'>
-                        <td className='center'> {o.id} </td>
-                        <td className='center'><a target='_blank'
-                                                  href='admin/route/hall_detail?id=" + o.id + "'> {o.name} </a></td>
-                        <td className='center'> {o.category_name} </td>
-                        <td className='center'> {o.level_name} </td>
-                        <td className='center'>
-                            <button type='button' className='btn btn-danger'>delete</button>
-                        </td>
-                    </tr>
-                )
-            });
+            var pager = [];
+            for (var i = 1; i <= data.totalPage; i++) {
+                pager.push(
+                    <li key={i} className={'paginate_button ' + i == data.pageNumber ? ' active' : '' }>
+                        <button type="button"
+                                className={  i === 1 ? ' current btn btn-primary' : ' btn btn-primary'}
+                                onClick={self.queryQuiz.bind(self, self.state.category_id, level_id, i)}
+                        >{i}</button>
+                    </li>
+                );
+            }
             self.setState({
-                category_id: 0,
-                level_id: 0,
-                td: td,
-                list: list,
-                pageSize: pageSize,
-                totalPage: totalPage,
-                totalRow: totalRow,
-                firstPage: firstPage,
-                pageNumber: pageNumber,
-                lastPage: lastPage
+                pager:pager,
+                list: data.list,
+                pageSize: data.pageSize,
+                totalPage: data.totalPage,
+                totalRow: data.totalRow,
+                firstPage: data.firstPage,
+                pageNumber: data.pageNumber,
+                lastPage: data.lastPage
             });
         });
 
         self.setState({
-            level_id: e.target.value
+            level_id: level_id
         });
     }
 
@@ -401,16 +385,16 @@ class Quiz extends Component {
                         <div className='col-sm-8'>
                             <div className='dataTables_paginate paging_simple_numbers'>
                                 <ul className='pagination'>
-                                    <li className={'paginate_button previous ' + this.state.firstPage ? ' disabled' : '' }>
+                                    <li className={'paginate_button previous ' + _this.state.firstPage ? ' disabled' : '' }>
                                         <button type="button" className="btn btn-info"
-                                                onClick={this.queryQuiz.bind(this, this.state.category_id, this.state.level_id, this.state.pageNumber - 1 > 0 ? (this.state.pageNumber - 1) : 1)}>
+                                                onClick={_this.queryQuiz.bind(_this, _this.state.category_id, _this.state.level_id, _this.state.pageNumber - 1 > 0 ? (_this.state.pageNumber - 1) : 1)}>
                                             Previous
                                         </button>
                                     </li>
-                                    {this.pageNumbers()}
-                                    <li className={'paginate_button next ' + this.state.lastPage ? ' disabled' : '' }>
+                                    {_this.state.pager}
+                                    <li className={'paginate_button next ' + _this.state.lastPage ? ' disabled' : '' }>
                                         <button type="button" className="btn btn-info"
-                                                onClick={this.queryQuiz.bind(this, this.state.category_id, this.state.level_id, this.state.totalPage + 1 <= this.state.totalPage ? (this.state.pageNumber + 1) : this.state.totalPage)}>
+                                                onClick={_this.queryQuiz.bind(_this, _this.state.category_id, _this.state.level_id, _this.state.totalPage + 1 <= _this.state.totalPage ? (_this.state.pageNumber + 1) : _this.state.totalPage)}>
                                             Next
                                         </button>
                                     </li>
