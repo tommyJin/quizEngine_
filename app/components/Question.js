@@ -30,6 +30,8 @@ class Question extends Component {
             answer: '',
             mark: '',
 
+            showanswer:2,
+
             saved: [],
             current: '',
             size: ''
@@ -43,6 +45,15 @@ class Question extends Component {
         q.quiz_id = cookie.load('quiz_id');
         q.size = 1000;
         // console.log('quiz_id=' + q.quiz_id);
+
+        quiz.getQuiz(self, q, function (rs) {
+            //get quiz detail
+            var data = rs.data;
+            self.setState({
+                showanswer: data.showanswer
+            });
+        });
+
         quiz.getQuestions(self, q, function (rs) {
             // console.log('rs=' + JSON.stringify(rs));
             // console.log("first=" + JSON.stringify(rs.data.list[0]));
@@ -164,6 +175,13 @@ class Question extends Component {
                         saved: saved,
                         answers:answers
                     });
+
+                    var showanswer = self.state.showanswer;
+                    if (showanswer==2){
+                        self.setState({
+                            showanswer:4
+                        });
+                    }
                 })
             }
             
@@ -350,17 +368,17 @@ class Question extends Component {
 
         // console.log('question type='+type);
         if ( type == 1){//fill blank
-            question = <Fill_Blank question={_question} answer={answer} handleInput={this.handleInput}/>
+            question = <Fill_Blank question={_question} answer={answer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else if (type == 2) {
-            question = <Fill_Blank question={_question} answer={answer} handleInput={this.handleInput}/>
+            question = <Fill_Blank question={_question} answer={answer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else if (type == 3) {
-            question = <Multiple_Choice question={_question} answer={answer}  handleSelect={this.handleSelect}/>
+            question = <Multiple_Choice question={_question} answer={answer} general_feedback={this.state.question.feedback}  handleSelect={this.handleSelect}/>
         } else if (type == 4) {
-            question = <Multiple_Choice question={_question} answer={answer} handleSelect={this.handleSelect}/>
+            question = <Multiple_Choice question={_question} answer={answer} general_feedback={this.state.question.feedback} handleSelect={this.handleSelect}/>
         } else if (type == 5) {//true false
-            question = <True_False question={_question} answer={answer} handleChoose={this.handleChoose}/>
+            question = <True_False question={_question} answer={answer} general_feedback={this.state.question.feedback} handleChoose={this.handleChoose}/>
         } else if (type == 6) {
-            question = <Fill_Blank question={_question} answer={answer} handleInput={this.handleInput}/>
+            question = <Fill_Blank question={_question} answer={answer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else {
             question = <div></div>
         }
@@ -385,9 +403,10 @@ class Question extends Component {
                     {question}
                 </div>
 
-                <div className="feedback_general">
-                    <div dangerouslySetInnerHTML={this.innerHtml(this.state.question.feedback)}/>
-                </div>
+
+              {/*  <div className={this.state.showanswer==4?"block":"hidden"}>
+                    <div dangerouslySetInnerHTML={this.innerHtml("General feedback: "+this.state.question.feedback)}/>
+                </div>*/}
 
                 <div className="question_submit_button">
                     <button type="button" onClick={this.handleSave} className="btn btn-success">Save</button>

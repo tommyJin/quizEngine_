@@ -292,3 +292,11 @@ sub{ vertical-align:text-bottom;}
 .clear {
     clear: both;
 }
+
+.hidden {
+    display: none;
+}
+
+.block {
+    display: block;
+}
