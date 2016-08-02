@@ -249,12 +249,14 @@ class Question extends Component {
         var question = this.state.question; 
         var right_answer = JSON.parse(question.answer);
         var answers = this.state.answers;
-        // console.log('answer in input ='+JSON.stringify(this.state.answer));
+        console.log('answer in input ='+JSON.stringify(this.state.answer));
         var answer;
         if (this.state.answer instanceof Array){
             answer = this.state.answer;
         } else if (typeof this.state.answer === 'string'){
             answer = JSON.parse(this.state.answer);
+        } else if (typeof this.state.answer === 'object'){
+            answer = [];
         }
         // console.log('answer after ='+JSON.stringify(answer));
 
@@ -318,7 +320,14 @@ class Question extends Component {
         var question = this.state.question;
         var right_answer = JSON.parse(question.answer);
         // console.log("right_answer detail:"+JSON.stringify(right_answer));
-        var answer = this.state.answer.length==0?[]:this.state.answer;
+        var answer;
+        if ( this.state.answer instanceof Array){
+            answer = this.state.answer;
+        }else if ( typeof this.state.answer === 'string' ){
+            answer = JSON.parse(this.state.answer);
+        }
+
+        console.log("answer in select="+JSON.stringify(answer)+" and it is array:"+(answer instanceof Array));
         var p;
         if (answer.length==0){//first time click
             for (var i=0;i<right_answer.length;i++){
@@ -351,7 +360,10 @@ class Question extends Component {
                 p.checked = e.target.checked;
 
                 var flag = true;
+                // var tmp = JSON.parse(answer);
+                // console.log("answer:"+ (tmp instanceof Array));
                 for ( i=0;i<answer.length; i++){
+                    console.log("answer[i]="+answer[i]+" answer[i].id="+answer[i].id+"  id="+id);
                     if (answer[i].id==id){
                         answer[i].checked = e.target.checked;
                         flag = false;
@@ -380,7 +392,16 @@ class Question extends Component {
             }
             console.log('final answer:'+JSON.stringify(answer));
             console.log('final mark:'+mark);
+            var answers = this.state.answers;
+            for (var i=0; i<answers.length; i++){
+                if (answers[i].quiz_question_id == question.quiz_question_id){
+                    answers[i].answer = answer ;
+                    break;
+                }
+            }
+
             this.setState({
+                answers:answers,
                 answer:answer,
                 mark:mark
             })
