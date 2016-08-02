@@ -155,7 +155,7 @@ class Question extends Component {
                         }
                     }
                 }
-                console.log("q:" + JSON.stringify(q));
+                // console.log("q:" + JSON.stringify(q));
                 // console.log("answers:" + JSON.stringify(answers));
 
                 quiz.saveAnswer(self, q, function (rs) {
@@ -252,13 +252,13 @@ class Question extends Component {
         flag = true;
         for (var i=0; i<answer.length; i++){
             for (var j=0; j<right_answer.length; j++){
-                console.log(answer[i].id+" "+right_answer[j].id);
-                console.log(answer[i].id==right_answer[j].id);
-                console.log(answer[i].answer+" "+right_answer[j].answer);
-                console.log(answer[i].answer!=right_answer[j].answer);
+                // console.log(answer[i].id+" "+right_answer[j].id);
+                // console.log(answer[i].id==right_answer[j].id);
+                // console.log(answer[i].answer+" "+right_answer[j].answer);
+                // console.log(answer[i].answer!=right_answer[j].answer);
                 if(answer[i].id==right_answer[j].id && answer[i].answer!=right_answer[j].answer){
                     flag = false;
-                    console.log(answer[i].id+' = '+answer[i].answer+" not the right one:"+right_answer[j].answer);
+                    // console.log(answer[i].id+' = '+answer[i].answer+" not the right one:"+right_answer[j].answer);
                     break;// one blank is wrong
                 }
             }
@@ -279,7 +279,7 @@ class Question extends Component {
         console.log("choice checked=" + e.target.checked);
         var question = this.state.question;
         var right_answer = JSON.parse(question.answer);
-        console.log("right_answer detail:"+JSON.stringify(right_answer));
+        // console.log("right_answer detail:"+JSON.stringify(right_answer));
         var answer = this.state.answer.length==0?[]:this.state.answer;
         var p;
         if (answer.length==0){//first time click
@@ -291,7 +291,7 @@ class Question extends Component {
             }
         }
 
-        console.log("student answer detail:"+JSON.stringify(answer));
+        console.log("previous student answer detail:"+JSON.stringify(answer));
         var mark = 0;
 
         if(right_answer.length>0){//right answer exists
@@ -328,7 +328,7 @@ class Question extends Component {
                 for (i=0; i<answer.length; i++){
                     for (var j=0; j<right_answer.length; j++){
                         if(answer[i].id==right_answer[j].id && !(answer[i].checked == right_answer[j].isRight ) ){
-                            console.log(answer[i].id+" = "+answer[i].checked +" but right answer is = "+right_answer[j].isRight);
+                            // console.log(answer[i].id+" = "+answer[i].checked +" but right answer is = "+right_answer[j].isRight);
                             flag = false;
                             break;// one choice is wrong
                         }
@@ -347,7 +347,7 @@ class Question extends Component {
                 mark:mark
             })
         }else {
-            console.log("right answer issue");
+            // console.log("right answer issue");
         }
     }
 
@@ -356,7 +356,7 @@ class Question extends Component {
         var question, _question = this.state.question, type = _question.question_type_id;
         var answers=this.state.answers;
         console.log('_question=' + JSON.stringify(_question));
-        // console.log('answers in render:'+JSON.stringify(answers));
+        console.log('answers in render:'+JSON.stringify(answers));
         var answer = {};
         for (var i=0; i<answers.length; i++){
             if (answers[i].quiz_question_id == _question.quiz_question_id){
@@ -368,17 +368,17 @@ class Question extends Component {
 
         // console.log('question type='+type);
         if ( type == 1){//fill blank
-            question = <Fill_Blank question={_question} answer={answer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
+            question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else if (type == 2) {
-            question = <Fill_Blank question={_question} answer={answer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
+            question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else if (type == 3) {
-            question = <Multiple_Choice question={_question} answer={answer} general_feedback={this.state.question.feedback}  handleSelect={this.handleSelect}/>
+            question = <Multiple_Choice question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback}  handleSelect={this.handleSelect}/>
         } else if (type == 4) {
-            question = <Multiple_Choice question={_question} answer={answer} general_feedback={this.state.question.feedback} handleSelect={this.handleSelect}/>
+            question = <Multiple_Choice question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleSelect={this.handleSelect}/>
         } else if (type == 5) {//true false
-            question = <True_False question={_question} answer={answer} general_feedback={this.state.question.feedback} handleChoose={this.handleChoose}/>
+            question = <True_False question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleChoose={this.handleChoose}/>
         } else if (type == 6) {
-            question = <Fill_Blank question={_question} answer={answer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
+            question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else {
             question = <div></div>
         }

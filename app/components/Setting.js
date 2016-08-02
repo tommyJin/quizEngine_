@@ -102,7 +102,7 @@ class Setting extends Component {
             topic.topics(self, q, function (rs) {
                 var data = rs.data;
                 var topics = $.map(data, function (o, index) {
-                    return (<label key={index} className="checkbox-inline"><input type="checkbox" onChange={self.handleTopics} value={o.id}/>{o.name}
+                    return (<label key={o.id+"_"+index} className="checkbox-inline"><input type="checkbox" onChange={self.handleTopics} value={o.id}/>{o.name}
                     </label>);
                 });
                 self.setState({

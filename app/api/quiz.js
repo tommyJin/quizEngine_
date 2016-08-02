@@ -23,7 +23,7 @@ module.exports = {
         });
     },
 
-    quizzes(q,cb){
+    quizzes(p,q,cb){
         var url = base.local_url+"api/quiz";
         // console.log("get all quizzes, q="+q);
         if(q.category_id==null && q.level_id==null)

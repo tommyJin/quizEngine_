@@ -18,7 +18,7 @@ class Multiple_Choice extends Component {
         // console.log('this.props.answer=' + JSON.stringify(this.props.answer));
         // console.log('answer='+$.isEmptyObject(this.props.answer));
         var pre_answer = $.isEmptyObject(this.props.answer) ? [] : JSON.parse(this.props.answer.answer);
-        var showanswer = 2;
+        var showanswer = this.props.showanswer;
         var general_feedback = this.props.general_feedback;
 
         var _this = this;
@@ -30,12 +30,16 @@ class Multiple_Choice extends Component {
                     if (pre_answer[i].checked) {
                         checked = "checked";
                     }
-                    showanswer = 4;
+                    if (showanswer==2){
+                        showanswer = 4;
+                    }
                     break;
                 }
             }
+            var key = question.id + "_" + o.id;
             console.log(o.id + ' in pre_answer:' + checked);
-            return (<div key={question.id + "_" + o.id} className="multiple_choice">
+            console.log(' key:' + key);
+            return (<div key={key} className="multiple_choice">
                 <input type={o.number == 1 ? "radio" : "checkbox"} name="choice" defaultChecked={checked}
                        onClick={_this.props.handleSelect.bind(_this, o.id)}/>
                 <div className="choice_content">{index + 1}:{o.choice}

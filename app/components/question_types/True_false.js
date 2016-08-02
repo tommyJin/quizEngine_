@@ -21,11 +21,15 @@ class True_false extends Component{
         var answer = JSON.parse(question.answer);
         var pre_answer = this.props.answer;
         // console.log('pre_answer='+JSON.stringify(pre_answer));
-        var showanswer = pre_answer.answer!=null?4:2;
-        var general_feedback = this.props.general_feedback;
+        var showanswer = this.props.showanswer;
+        if (showanswer==2){
+            showanswer = pre_answer.answer!=null?4:2;
+        }
 
+        var general_feedback = this.props.general_feedback;
+        var key = "true_false_"+question.id;
         return(
-            <div className="question true_false">
+            <div key={key} className="question true_false">
                 <div className="radio">
                     <label>
                         <input type="radio" name="true_false" value="true" defaultChecked={pre_answer.answer=="true"?"checked":""} onClick={this.props.handleChoose.bind(this,true)}/>{answer.true_content}
