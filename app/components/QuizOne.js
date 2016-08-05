@@ -46,7 +46,10 @@ class QuizOne extends Component {
                 user_name: data.user_name,
                 total_mark: data.total_mark,
                 mark: data.mark,
-                showanswer:data.showanswer
+                showanswer:data.showanswer,
+
+                quiz_feedback:'',
+                overall_feedback:''
             });
         });
 
@@ -187,7 +190,18 @@ class QuizOne extends Component {
             self.setState({
                 questions: list
             });
+
+            q = {};
+            q.quiz_id = quiz_id;
+            quiz.quizLevelAnalysis(self, q,function (rs) {
+                console.log("data="+JSON.stringify(rs.data));
+                self.setState({
+                    quiz_feedback:rs.data
+                });
+            })
         });
+
+
     }
 
 
@@ -215,6 +229,16 @@ class QuizOne extends Component {
                 <div className="clear"/>
                 <div className="quiz_one_questions">
                     {this.state.questions}
+                </div>
+                <div className="quiz_feedback">
+                    <div className={this.state.showanswer==1?"hidden":"block"}>
+                        Quiz feedback:{this.state.quiz_feedback}
+                    </div>
+                </div>
+                <div className="overall_feedback">
+                    <div className={this.state.showanswer==1?"hidden":"block"}>
+                        Overall feedback:{this.state.overall_feedback}
+                    </div>
                 </div>
             </div>
         )

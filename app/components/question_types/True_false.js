@@ -48,6 +48,8 @@ class True_false extends Component{
             showanswer = pre_answer.answer!=null?4:2;
         }
 
+        console.log("showanswer in true false="+showanswer);
+
         var general_feedback = this.props.general_feedback;
         var key = "true_false_"+question.id;
         return(
@@ -57,7 +59,7 @@ class True_false extends Component{
                         <input type="radio" name="true_false" value="true" defaultChecked={pre_ans=="true"?"checked":""} onClick={this.props.handleChoose.bind(this,true)}/>{answer.true_content}
                     </label>
                 </div>
-                <div className={showanswer==4?"block":"hidden"}>
+                <div className={ (showanswer==4 && pre_ans=="true") ?"block":"hidden"}>
                     <div dangerouslySetInnerHTML={this.innerHtml("Individual feedback: "+answer.feedback_true)}/>
                 </div>
                 <div className="radio">
@@ -65,7 +67,7 @@ class True_false extends Component{
                         <input type="radio" name="true_false" value="false" defaultChecked={pre_ans=="false"?"checked":""} onClick={this.props.handleChoose.bind(this,false)}/>{answer.false_content}
                     </label>
                 </div>
-                <div className={showanswer==4?"block":"hidden"}>
+                <div className={(showanswer==4 && pre_ans=="false")?"block":"hidden"}>
                     <div dangerouslySetInnerHTML={this.innerHtml("Individual feedback: "+answer.feedback_false)}/>
                 </div>
 
