@@ -19,11 +19,11 @@ class Multiple_Choice extends Component {
         // console.log('answer='+$.isEmptyObject(this.props.answer));
         var isSaved = this.props.isSaved;
         var pre_answer;
-        if ($.isEmptyObject(this.props.answer)){
+        if ($.isEmptyObject(this.props.answer)) {
             pre_answer = [];
-        }else if (typeof this.props.answer.answer === 'string'){
+        } else if (typeof this.props.answer.answer === 'string') {
             pre_answer = JSON.parse(this.props.answer.answer);
-        }else if ( this.props.answer.answer instanceof Array){
+        } else if (this.props.answer.answer instanceof Array) {
             pre_answer = this.props.answer.answer;
         }
 
@@ -35,26 +35,31 @@ class Multiple_Choice extends Component {
         console.log('pre_answer=' + JSON.stringify(pre_answer));
         var choices = $.map(answer, function (o, index) {
             var checked = "";
-            for (var i = 0; i < pre_answer.length; i++) {
-                if (pre_answer[i].id == o.id) {
-                    if (pre_answer[i].checked) {
-                        checked = "checked";
+            var tmp_showanswer = 2;
+            if (isSaved == 2) {
+                for (var i = 0; i < pre_answer.length; i++) {
+                    if (pre_answer[i].id == o.id) {
+                        if (pre_answer[i].checked) {
+                            checked = "checked";
+                            if (showanswer == 2 || showanswer == 4) {
+                                tmp_showanswer = 4;
+                            }
+                        }
+                        break;
                     }
-                    if (showanswer==2){
-                        showanswer = 4;
-                    }
-                    break;
                 }
+                showanswer = 4;
             }
             var key = question.id + "_" + o.id;
             // console.log(o.id + ' in pre_answer:' + checked);
             // console.log(' key:' + key);
+            console.log("tmp_showanswer="+tmp_showanswer+". showanswer="+showanswer);
             return (<div key={key} className="multiple_choice">
                 <input type={o.number == 1 ? "radio" : "checkbox"} name="choice" defaultChecked={checked}
                        onClick={_this.props.handleSelect.bind(_this, o.id)}/>
                 <div className="choice_content">{index + 1}:{o.choice}
-                    <div className={showanswer==4?"block":"hidden"}>
-                        <div dangerouslySetInnerHTML={_this.innerHtml("Individual feedback: "+o.feedback)}/>
+                    <div className={tmp_showanswer == 4 ? "block" : "hidden"}>
+                        <div dangerouslySetInnerHTML={_this.innerHtml("Individual feedback: " + o.feedback)}/>
                     </div>
                 </div>
                 <br className="clear"/>
@@ -64,8 +69,8 @@ class Multiple_Choice extends Component {
             <div>
                 {choices}
 
-                <div className={showanswer==4?"block":"hidden"}>
-                    <div dangerouslySetInnerHTML={_this.innerHtml("General feedback: "+general_feedback)}/>
+                <div className={showanswer == 4 ? "block" : "hidden"}>
+                    <div dangerouslySetInnerHTML={_this.innerHtml("General feedback: " + general_feedback)}/>
                 </div>
             </div>
         )
