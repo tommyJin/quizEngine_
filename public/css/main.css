@@ -287,6 +287,15 @@ sub{ vertical-align:text-bottom;}
     text-align: left;
 }
 
+.quiz_feedback{
+    text-align: left;
+    background-color: #9acfea;
+}
+
+.overall_feedback{
+    text-align: left;
+    background-color: #66afe9;
+}
 
 /* common use */
 .clear {

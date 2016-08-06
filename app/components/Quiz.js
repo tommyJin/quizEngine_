@@ -2,6 +2,7 @@
  * Created by tommy on 2016/6/19.
  */
 import React, {Component} from 'react';
+import user from '../api/user';
 import quiz from '../api/quiz';
 import category from '../api/question_category';
 import level from '../api/question_level';
@@ -19,6 +20,7 @@ class Quiz extends Component {
         this.handleCategories = this.handleCategories.bind(this);
         this.handleLevels = this.handleLevels.bind(this);
         this.pageNumbers = this.pageNumbers.bind(this);
+        this.handleQuickGeneration = this.handleQuickGeneration.bind(this);
         this.state = {
             category_id: '',
             categories: '',
@@ -30,7 +32,7 @@ class Quiz extends Component {
             td: '',
             pager: '',
             list: '',
-            currentPage:1,
+            currentPage: 1,
             pageSize: '',
             totalPage: '',
             totalRow: '',
@@ -42,9 +44,9 @@ class Quiz extends Component {
 
     queryQuiz(category_id, level_id, pageNumber) {
         console.log("query quiz");
-        console.log("category_id="+category_id);
-        console.log("level_id="+level_id);
-        console.log("pageNumber="+pageNumber);
+        console.log("category_id=" + category_id);
+        console.log("level_id=" + level_id);
+        console.log("pageNumber=" + pageNumber);
         var q = {};
         q.page = pageNumber;
         var self = this;
@@ -66,7 +68,7 @@ class Quiz extends Component {
 
             self.setState({
                 list: list,
-                currentPage:pageNumber,
+                currentPage: pageNumber,
                 pageSize: pageSize,
                 totalPage: totalPage,
                 totalRow: totalRow,
@@ -163,9 +165,9 @@ class Quiz extends Component {
                 td: td,
                 list: list,
 
-                pager:pager,
+                pager: pager,
 
-                currentPage:1,
+                currentPage: 1,
                 pageSize: pageSize,
                 totalPage: totalPage,
                 totalRow: totalRow,
@@ -219,7 +221,7 @@ class Quiz extends Component {
 
     handleCategories(e) {
         var category_id = e.target.value;
-        console.log("handleCategories start value=" + category_id+" and level_id="+this.state.level_id);
+        console.log("handleCategories start value=" + category_id + " and level_id=" + this.state.level_id);
         var q = {};
         q.page = 1;
         if (category_id != 0) {
@@ -244,7 +246,7 @@ class Quiz extends Component {
                 );
             }
             self.setState({
-                pager:pager,
+                pager: pager,
                 list: data.list,
                 pageSize: data.pageSize,
                 totalPage: data.totalPage,
@@ -262,7 +264,7 @@ class Quiz extends Component {
 
     handleLevels(e) {
         var level_id = e.target.value;
-        console.log("handleLevels start value=" + level_id+" and category_id="+this.state.category_id);
+        console.log("handleLevels start value=" + level_id + " and category_id=" + this.state.category_id);
         var q = {};
         q.page = 1;
         if (this.state.category_id != 0) {
@@ -286,7 +288,7 @@ class Quiz extends Component {
                 );
             }
             self.setState({
-                pager:pager,
+                pager: pager,
                 list: data.list,
                 pageSize: data.pageSize,
                 totalPage: data.totalPage,
@@ -302,6 +304,43 @@ class Quiz extends Component {
         });
     }
 
+    handleQuickGeneration(e) {
+        console.log("handleSubmit");
+        var q = {};
+        user.getOne(q, function (rs) {
+            var data = rs.data;
+            if (!$.isEmptyObject(JSON.parse(data.setting))) {
+                var setting = JSON.parse(data.setting);
+                q.name = setting.name;
+                q.category_id = setting.category_id;
+                q.level_id = setting.level_id;
+                q.topic_id = setting.topic_id;
+                q.number = setting.number;
+                q.answered = setting.answered;//1->remove  2->dont remove
+                q.showanswer = setting.showanswer;//1->dont show  2->show after each question  3->show after quiz
+
+                var self = this;
+                quiz.addQuiz(self, q, function (rs1) {
+                    console.log('submit rs=%j', rs1);
+                    if (rs1.status == 200) {
+                        alert("Generate quiz success!");
+                        cookie.save('quiz_id', rs1.data.id, {path: '/'});
+                        console.log('quiz_id in cookie = ' + cookie.load('quiz_id'));
+                        util.goTo('view/quiz/question');
+                        return false;//prevent navigation to that link
+                    } else {
+                        alert("Generate quiz failed!");
+                    }
+                });
+
+            } else {
+                if(confirm("You have to save a setting before using quick generation. Would you like to set now?")){
+                    util.goTo('view/quiz/setting');
+                    return false;//prevent navigation to that link
+                }
+            }
+        });
+    }
 
     render() {
         var _this = this, td = $.map(this.state.list, function (o, index) {
@@ -345,9 +384,13 @@ class Quiz extends Component {
 
                     <div className="col-sm-6">
                         <div className="dataTables_length">
-                            <a href="view/quiz/setting" className="btn btn-success">Generate a new one</a>
+                            <a href="view/quiz/setting" className="btn btn-success">New Quiz</a>
+                            <button onClick={this.handleQuickGeneration} className="btn btn-info">Quick Generation
+                            </button>
                         </div>
+
                     </div>
+
                     <div className="col-sm-6">
                         <div id="dataTables-example_filter" className="dataTables_filter">
                             <select className="form-control input_right" onChange={this.handleCategories}>

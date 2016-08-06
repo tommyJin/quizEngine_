@@ -2,6 +2,7 @@
  * Created by tommy on 2016/6/23.
  */
 import React, {Component} from 'react';
+import user from '../api/user';
 import quiz from '../api/quiz';
 import category from '../api/question_category';
 import topic from '../api/question_topic';
@@ -20,6 +21,7 @@ class Setting extends Component {
         this.handleAnswered = this.handleAnswered.bind(this);
         this.handleShowAnswer = this.handleShowAnswer.bind(this);
         this.handleGoTo = this.handleGoTo.bind(this);
+        this.handleSaveSetting = this.handleSaveSetting.bind(this);
         this.state = {
             categories: '',
             levels: '',
@@ -291,6 +293,42 @@ class Setting extends Component {
 
     }
 
+    handleSaveSetting(e) {
+        console.log("handleSaveSetting");
+        var q = {};
+        q.name = this.state.name;
+        q.category_id = this.state.category_id;
+        q.level_id = this.state.level_id;
+        q.topic_id = this.state.topic_id;
+        q.number = this.state.number;
+        q.answered = this.state.answered;//1->remove  2->dont remove
+        q.showanswer = this.state.showanswer;//1->dont show  2->show after each question  3->show after quiz
+        if (q.category_id.length <= 0) {
+            alert("You should select one module");
+        } else {
+            if (q.topic_id.length <= 0) {
+                alert("You should select one topic");
+            } else {
+                if (this.state.maxSize < this.state.number) {
+                    alert("You can not set the number of questions greater than the max size!");
+                } else {
+                    var self = this;
+                    var setting = {};
+                    setting.setting = JSON.stringify(q);
+                    console.log("setting="+JSON.stringify(setting));
+                    user.update(setting, function (rs) {
+                        if (rs.status == 200) {
+                            alert("Save user setting success!");
+                        } else {
+                            alert("Generate quiz failed!");
+                        }
+                    });
+                }
+            }
+        }
+
+    }
+
     render() {
         return (
             <form role="form" id="form">
@@ -348,6 +386,7 @@ class Setting extends Component {
                 </div>
                 <button type="button" onClick={this.handleSubmit} className="btn btn-default">Submit</button>
                 <button type="reset" className="btn btn-default">Reset</button>
+                <button type="button" onClick={this.handleSaveSetting} className="btn btn-info">Save setting</button>
                 <button type="button" style={{display: this.state.goToCss}} onClick={this.handleGoTo}
                         className="btn btn-success">Take the quiz now!
                 </button>

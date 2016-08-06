@@ -230,14 +230,15 @@ class QuizOne extends Component {
                 <div className="quiz_one_questions">
                     {this.state.questions}
                 </div>
+                <div className="clear"/>
                 <div className="quiz_feedback">
                     <div className={this.state.showanswer==1?"hidden":"block"}>
-                        Quiz feedback:{this.state.quiz_feedback}
+                        <b>Quiz feedback</b>:{this.state.quiz_feedback}
                     </div>
                 </div>
                 <div className="overall_feedback">
                     <div className={this.state.showanswer==1?"hidden":"block"}>
-                        Overall feedback:{this.state.overall_feedback}
+                        <b>Overall feedback</b>:{this.state.overall_feedback}
                     </div>
                 </div>
             </div>

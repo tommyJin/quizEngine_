@@ -61,14 +61,28 @@ router.post('/user/update',function (req,res,next) {
     var password = req.body.password;
     var name = req.body.name;
     var email = req.body.email;
-    
+    var setting = req.body.setting;
+
     var data = {};
     if(user){
         var paras = {};
         paras.id = user.id;
         paras.username = user.username;
         paras.token = user.token;
-        var url = base + "student/user/update?paras.id="+paras.id+"&paras.name="+name+"&paras.email="+email+"&paras.password="+password+"&id="+paras.id+"&token="+paras.token;
+        var url = base + "student/user/update?paras.id="+paras.id+"&id="+paras.id+"&token="+paras.token;
+        if (name != null && name != ""){
+            url += "&paras.name="+name
+        }
+        if (email != null && email != ""){
+            url += "&paras.email="+email
+        }
+        if (password != null && password != ""){
+            url += "&paras.password="+password
+        }
+        if (setting != null && setting != ""){
+            url += "&paras.setting="+setting
+        }
+
         request.post(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 // console.log(body);

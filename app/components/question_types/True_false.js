@@ -22,6 +22,7 @@ class True_false extends Component{
         var pre_answer = this.props.answer;
         var pre_ans = pre_answer.answer;
         var isSaved = this.props.isSaved;
+        console.log("props isSaved="+isSaved);
         // console.log('pre_answer='+pre_answer);
         // console.log('pre_answer answer='+pre_answer.answer);
 
@@ -45,6 +46,9 @@ class True_false extends Component{
         // console.log("1 false checked="+ (pre_ans=="false" ));
         // console.log("2 false checked="+ (pre_ans==="false" ));
         var showanswer = this.props.showanswer;
+        console.log("props showanswer="+showanswer);
+        showanswer = showanswer==4?2:showanswer;
+        console.log("after showanswer="+showanswer);
         if (showanswer==2 && isSaved ==2){
             showanswer = pre_answer.answer!=null?4:2;
         }
@@ -53,6 +57,7 @@ class True_false extends Component{
 
         var general_feedback = this.props.general_feedback;
         var key = "true_false_"+question.id;
+        console.log("before return showanswer="+showanswer);
         return(
             <div key={key} className="question true_false">
                 <div className="radio">

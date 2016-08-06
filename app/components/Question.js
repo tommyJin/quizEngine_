@@ -82,6 +82,7 @@ class Question extends Component {
             current: i,
             question: questions[i - 1],
             answer:answer,
+            isSaved:1,
             mark:0
         });
     }
@@ -456,8 +457,8 @@ class Question extends Component {
                 </div>
                 <div className="header">
                     <button type="button" onClick={this.handleFinish} className="btn btn-success">Finish</button>
-                    <button type="button" onClick={this.handlePrevious} className="btn btn-info">Previous</button>
-                    <button type="button" onClick={this.handleNext} className="btn btn-primary">Next</button>
+                    {/*<button type="button" onClick={this.handlePrevious} className="btn btn-info">Previous</button>
+                    <button type="button" onClick={this.handleNext} className="btn btn-primary">Next</button>*/}
                 </div>
                 <br className="clear"/>
                 <hr/>
