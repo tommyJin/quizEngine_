@@ -33,6 +33,7 @@ class Question extends Component {
             showanswer:2,
 
             saved: [],
+            isSaved : 1,//1-> just modify  2->saved
             current: '',
             size: ''
         };
@@ -181,15 +182,16 @@ class Question extends Component {
 
                     self.setState({
                         saved: saved,
+                        isSaved:2,
                         answers:answers
                     });
 
-                    var showanswer = self.state.showanswer;
-                    if (showanswer==2){
-                        self.setState({
-                            showanswer:4
-                        });
-                    }
+                    // var showanswer = self.state.showanswer;
+                    // if (showanswer==2){
+                    //     self.setState({
+                    //         showanswer:4
+                    //     });
+                    // }
                 })
             }
             
@@ -310,7 +312,8 @@ class Question extends Component {
         this.setState({
             answers:answers,
             answer:answer,
-            mark:mark
+            mark:mark,
+            isSaved:1
         })
     }
     
@@ -429,7 +432,7 @@ class Question extends Component {
 
         // console.log('question type='+type);
         if ( type == 1){//fill blank
-            question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
+            question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} isSaved = {this.state.isSaved} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else if (type == 2) {
             question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else if (type == 3) {
