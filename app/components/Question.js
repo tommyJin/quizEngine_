@@ -241,7 +241,8 @@ class Question extends Component {
         this.setState({
             answers:answers,
             answer: answer,
-            mark: mark
+            mark: mark,
+            isSaved:1
         });
     }
 
@@ -408,7 +409,8 @@ class Question extends Component {
             this.setState({
                 answers:answers,
                 answer:answer,
-                mark:mark
+                mark:mark,
+                isSaved:1
             })
         }else {
             // console.log("right answer issue");
@@ -434,15 +436,15 @@ class Question extends Component {
         if ( type == 1){//fill blank
             question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} isSaved = {this.state.isSaved} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else if (type == 2) {
-            question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
+            question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} isSaved = {this.state.isSaved} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else if (type == 3) {
-            question = <Multiple_Choice question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback}  handleSelect={this.handleSelect}/>
+            question = <Multiple_Choice question={_question} answer={answer} showanswer={this.state.showanswer} isSaved = {this.state.isSaved} general_feedback={this.state.question.feedback}  handleSelect={this.handleSelect}/>
         } else if (type == 4) {
-            question = <Multiple_Choice question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleSelect={this.handleSelect}/>
+            question = <Multiple_Choice question={_question} answer={answer} showanswer={this.state.showanswer} isSaved = {this.state.isSaved} general_feedback={this.state.question.feedback} handleSelect={this.handleSelect}/>
         } else if (type == 5) {//true false
-            question = <True_False question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleChoose={this.handleChoose}/>
+            question = <True_False question={_question} answer={answer} showanswer={this.state.showanswer} isSaved = {this.state.isSaved} general_feedback={this.state.question.feedback} handleChoose={this.handleChoose}/>
         } else if (type == 6) {
-            question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
+            question = <Fill_Blank question={_question} answer={answer} showanswer={this.state.showanswer} isSaved = {this.state.isSaved} general_feedback={this.state.question.feedback} handleInput={this.handleInput}/>
         } else {
             question = <div></div>
         }

@@ -21,6 +21,7 @@ class True_false extends Component{
         var answer = JSON.parse(question.answer);
         var pre_answer = this.props.answer;
         var pre_ans = pre_answer.answer;
+        var isSaved = this.props.isSaved;
         // console.log('pre_answer='+pre_answer);
         // console.log('pre_answer answer='+pre_answer.answer);
 
@@ -44,7 +45,7 @@ class True_false extends Component{
         // console.log("1 false checked="+ (pre_ans=="false" ));
         // console.log("2 false checked="+ (pre_ans==="false" ));
         var showanswer = this.props.showanswer;
-        if (showanswer==2){
+        if (showanswer==2 && isSaved ==2){
             showanswer = pre_answer.answer!=null?4:2;
         }
 
@@ -59,7 +60,7 @@ class True_false extends Component{
                         <input type="radio" name="true_false" value="true" defaultChecked={pre_ans=="true"?"checked":""} onClick={this.props.handleChoose.bind(this,true)}/>{answer.true_content}
                     </label>
                 </div>
-                <div className={ (showanswer==4 && pre_ans=="true") ?"block":"hidden"}>
+                <div className={ (showanswer==4 && isSaved==2 && pre_ans=="true") ?"block":"hidden"}>
                     <div dangerouslySetInnerHTML={this.innerHtml("Individual feedback: "+answer.feedback_true)}/>
                 </div>
                 <div className="radio">
@@ -67,11 +68,11 @@ class True_false extends Component{
                         <input type="radio" name="true_false" value="false" defaultChecked={pre_ans=="false"?"checked":""} onClick={this.props.handleChoose.bind(this,false)}/>{answer.false_content}
                     </label>
                 </div>
-                <div className={(showanswer==4 && pre_ans=="false")?"block":"hidden"}>
+                <div className={(showanswer==4 && isSaved==2 && pre_ans=="false")?"block":"hidden"}>
                     <div dangerouslySetInnerHTML={this.innerHtml("Individual feedback: "+answer.feedback_false)}/>
                 </div>
 
-                <div className={showanswer==4?"block":"hidden"}>
+                <div className={showanswer==4  && isSaved==2?"block":"hidden"}>
                     <div dangerouslySetInnerHTML={this.innerHtml("General feedback: "+general_feedback)}/>
                 </div>
             </div>

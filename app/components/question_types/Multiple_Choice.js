@@ -17,6 +17,7 @@ class Multiple_Choice extends Component {
         var answer = JSON.parse(question.answer);
         // console.log('this.props.answer=' + JSON.stringify(this.props.answer));
         // console.log('answer='+$.isEmptyObject(this.props.answer));
+        var isSaved = this.props.isSaved;
         var pre_answer;
         if ($.isEmptyObject(this.props.answer)){
             pre_answer = [];
