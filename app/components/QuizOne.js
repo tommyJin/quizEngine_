@@ -198,7 +198,14 @@ class QuizOne extends Component {
                 self.setState({
                     quiz_feedback:rs.data
                 });
-            })
+            });
+
+            quiz.overallLevelAnalysis(self, q,function (rs) {
+                console.log("data="+JSON.stringify(rs.data));
+                self.setState({
+                    overall_feedback:rs.data
+                });
+            });
         });
 
 

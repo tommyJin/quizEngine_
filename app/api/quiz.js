@@ -213,5 +213,22 @@ module.exports = {
                 alert("ajax error");
             }
         });
+    },
+
+    overallLevelAnalysis(p, q, cb){
+        var url = base.local_url + "api/quiz/overallLevelAnalysis";
+        console.log("overallLevelAnalysis");
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: q,
+            dataType: 'JSON',
+            success(rs){
+                cb(rs);
+            },
+            error(){
+                alert("ajax error");
+            }
+        });
     }
 };
