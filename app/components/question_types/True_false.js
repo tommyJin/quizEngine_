@@ -25,7 +25,7 @@ class True_false extends Component{
         console.log("props isSaved="+isSaved);
         // console.log('pre_answer='+pre_answer);
         // console.log('pre_answer answer='+pre_answer.answer);
-
+        var right_answer = "";
         if (typeof pre_ans === 'boolean'){
             if (pre_ans){
                 pre_ans = "true";
@@ -62,7 +62,7 @@ class True_false extends Component{
             <div key={key} className="question true_false">
                 <div className="radio">
                     <label>
-                        <input type="radio" name="true_false" value="true" defaultChecked={pre_ans=="true"?"checked":""} onClick={this.props.handleChoose.bind(this,true)}/>{answer.true_content}
+                        <input type="radio" name="true_false" value="true" defaultChecked={pre_ans=="true"?"checked":""} onClick={this.props.handleChoose.bind(this,true)}/>true:{answer.true_content}
                     </label>
                 </div>
                 <div className={ (showanswer==4 && isSaved==2 && pre_ans=="true") ?"block":"hidden"}>
@@ -70,7 +70,7 @@ class True_false extends Component{
                 </div>
                 <div className="radio">
                     <label>
-                        <input type="radio" name="true_false" value="false" defaultChecked={pre_ans=="false"?"checked":""} onClick={this.props.handleChoose.bind(this,false)}/>{answer.false_content}
+                        <input type="radio" name="true_false" value="false" defaultChecked={pre_ans=="false"?"checked":""} onClick={this.props.handleChoose.bind(this,false)}/>false:{answer.false_content}
                     </label>
                 </div>
                 <div className={(showanswer==4 && isSaved==2 && pre_ans=="false")?"block":"hidden"}>
@@ -78,6 +78,7 @@ class True_false extends Component{
                 </div>
 
                 <div className={showanswer==4  && isSaved==2?"block":"hidden"}>
+                    <div className="green">Right answer:{answer.right}</div>
                     <div dangerouslySetInnerHTML={this.innerHtml("General feedback: "+general_feedback)}/>
                 </div>
             </div>

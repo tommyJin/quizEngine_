@@ -16,6 +16,7 @@ class Multiple_Choice extends Component {
         var question = this.props.question;
         var answer = JSON.parse(question.answer);
         // console.log('this.props.answer=' + JSON.stringify(this.props.answer));
+        console.log('answer=' + JSON.stringify(answer));
         // console.log('answer='+$.isEmptyObject(this.props.answer));
         var isSaved = this.props.isSaved;
         console.log("props isSaved=" + isSaved);
@@ -38,8 +39,13 @@ class Multiple_Choice extends Component {
 
         var _this = this;
         console.log('pre_answer=' + JSON.stringify(pre_answer));
+        var right_answer = "";
         var choices = $.map(answer, function (o, index) {
             var checked = "";
+            console.log(index+ " "+o.id+"="+o.isRight);
+            if(o.isRight || o.isRight=="true"){
+                right_answer+= (index+1)+" ";
+            }
             var tmp_showanswer = 2;
             for (var i = 0; i < pre_answer.length; i++) {
                 if (pre_answer[i].id == o.id) {
@@ -62,7 +68,8 @@ class Multiple_Choice extends Component {
             return (<div key={key} className="multiple_choice">
                 <input type={o.number == 1 ? "radio" : "checkbox"} name="choice" defaultChecked={checked}
                        onClick={_this.props.handleSelect.bind(_this, o.id)}/>
-                <div className="choice_content">{index + 1}:{o.choice}
+                <div className="choice_content">
+                    <div dangerouslySetInnerHTML={_this.innerHtml((index + 1)+":"+o.choice)}/>
                     <div className={tmp_showanswer == 4 ? "block" : "hidden"}>
                         <div dangerouslySetInnerHTML={_this.innerHtml("Individual feedback: " + o.feedback)}/>
                     </div>
@@ -76,6 +83,7 @@ class Multiple_Choice extends Component {
                 {choices}
 
                 <div className={showanswer == 4 && isSaved == 2 ? "block" : "hidden"}>
+                    <div className="green">Right answer:{right_answer}</div>
                     <div dangerouslySetInnerHTML={_this.innerHtml("General feedback: " + general_feedback)}/>
                 </div>
             </div>

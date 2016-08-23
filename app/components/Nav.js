@@ -3,6 +3,7 @@
  */
 import React, {Component} from 'react';
 import user from '../api/user';
+import cookie from 'react-cookie';
 
 class Nav extends Component{
     constructor(props){
@@ -17,6 +18,7 @@ class Nav extends Component{
     }
     
     render(){
+        var realname = cookie.load("realname");
         return(
             <div>
                 <div className="navbar-header">
@@ -41,7 +43,7 @@ class Nav extends Component{
                     </ul>
 
                     <ul className="nav navbar-nav navbar-right">
-                        <li><a href="view/user" >Welcome: student</a></li>
+                        <li><a href="view/user" >Welcome: {realname}</a></li>
                         <li><a href="" onClick={this.handleLogout} class="btn btn-info">Logout</a></li>
                     </ul>
 

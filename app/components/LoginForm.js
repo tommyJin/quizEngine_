@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import user from '../api/user';
 import base from '../base';
+import cookie from 'react-cookie';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -37,8 +38,9 @@ class LoginForm extends Component {
         user.login(q,function (rs) {
             if (rs.status==200){
                 alert("Welcome:"+rs.data.name);
-                
+                cookie.save('realname', rs.data.name, {path: '/'});
                 window.location.href = base.local_url+"view/index";
+
                 // if (params['from']) {
                 //     window.location.href = params['from'];
                 // }else {

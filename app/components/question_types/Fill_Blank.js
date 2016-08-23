@@ -35,9 +35,11 @@ class Fill_Blank extends Component {
         // console.log('pre_answer=' + JSON.stringify(pre_answer));
         // console.log("isSaved = "+isSaved);
         // console.log("showanswer = "+showanswer);
-
+        var right_answer = "";
+        console.log("answer = "+answer);
         var blanks = $.map(answer, function (o, index) {
             // console.log("answer the "+index+", showanswer="+showanswer);
+            right_answer+= " "+o.id+":"+o.answer+" ";
             var blank = "";
             var tmp_showanswer = 2;
             for (var i = 0; i < pre_answer.length; i++) {
@@ -71,6 +73,7 @@ class Fill_Blank extends Component {
                 {blanks}
 
                 <div className={showanswer == 4 && isSaved == 2 ? "block" : "hidden"}>
+                    <div className="green">Right answer:{right_answer}</div>
                     <div dangerouslySetInnerHTML={this.innerHtml("General feedback: " + general_feedback)}/>
                 </div>
             </div>
